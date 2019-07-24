@@ -1,0 +1,7 @@
+int ll_search (LinkedList* listaHermanos,void* pElement,int *(pFunc)(void*,void*));
+
+void* pElement Es el elemento que se utilzara de referencia para encontrarlo (id,nombre,fecha,sala,apellido)
+
+LinkedList* listaHermanos El lugar donde se ira a buscar
+
+int *(pFunc)(void*,void*) La funcion debera comparar el elemento de referncia con otro elemento (de la listaHermanos). devuelve 1 si coincide,0 si no.

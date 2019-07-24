@@ -1,0 +1,36 @@
+ESTRUCTURA eHermano
+
+id
+nombre
+apellido
+numero de tel;
+Servicio al ministerio; publicador(1)\p. aux(2)\p. reg(3)\p. esp (4)\ 
+privilegio; anciano(1)\sierv.min(2)\
+eAsignacion ultimaAsignacion;
+estado; (0)inactivo (1) activo
+
+
+ESTRUCTURA eAignacion
+int id;
+char sala: A\B
+char Asignacion:1/2/3
+eFecha fecha;
+
+ESTRUCTURA eConfig
+
+
+
+
+
+Menu
+
+1.  Crear nueva asignacion;
+2.  Agregar hermano;
+3.  Buscar asignacion;
+4.  Buscar hermano;
+5.  Ver lista de hermanos;
+6.  Ver lista de asignaciones;
+7.  Modificar hermano;
+8.  Modificar asignacion;
+9.  Configuracion;
+10. Salir;

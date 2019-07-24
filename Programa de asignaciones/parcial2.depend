@@ -1,0 +1,388 @@
+# depslib dependency file v1.0
+1561555485 source:d:\p2 lab\parcial2\dominio.c
+	"dominio.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+
+1561555964 d:\p2 lab\parcial2\dominio.h
+
+1561548719 source:d:\p2 lab\parcial2\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"inputs.h"
+
+1561548719 d:\p2 lab\parcial2\inputs.h
+
+1561548719 source:d:\p2 lab\parcial2\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1561548719 d:\p2 lab\parcial2\linkedlist.h
+
+1561555964 source:d:\p2 lab\parcial2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1561555462 source:d:\p2 lab\parcial2\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"dominio.h"
+
+1561554845 source:d:\p2 lab\parcial2\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Controller.h"
+	"LinkedList.h"
+	"parser.h"
+	"inputs.h"
+
+1561551628 d:\p2 lab\parcial2\parser.h
+
+1561554593 d:\p2 lab\parcial2\controller.h
+	"LinkedList.h"
+
+1561762998 source:d:\escritorio\esqueleto_parcial2\parcial2\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Controller.h"
+	"LinkedList.h"
+	"dominio.h"
+	"parser.h"
+	"inputs.h"
+
+1561762366 d:\escritorio\esqueleto_parcial2\parcial2\controller.h
+	"LinkedList.h"
+
+1561760359 d:\escritorio\esqueleto_parcial2\parcial2\linkedlist.h
+
+1561751374 d:\escritorio\esqueleto_parcial2\parcial2\parser.h
+
+1561751374 d:\escritorio\esqueleto_parcial2\parcial2\inputs.h
+
+1561761831 source:d:\escritorio\esqueleto_parcial2\parcial2\dominio.c
+	"dominio.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1561759513 d:\escritorio\esqueleto_parcial2\parcial2\dominio.h
+
+1561751374 source:d:\escritorio\esqueleto_parcial2\parcial2\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"inputs.h"
+
+1561761831 source:d:\escritorio\esqueleto_parcial2\parcial2\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1561762998 source:d:\escritorio\esqueleto_parcial2\parcial2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1561762998 source:d:\escritorio\esqueleto_parcial2\parcial2\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"dominio.h"
+
+1563294866 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\dominio.c
+	"dominio.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1563295203 d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\dominio.h
+
+1561760359 d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\linkedlist.h
+
+1561751374 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"inputs.h"
+
+1561751374 d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\inputs.h
+
+1563048056 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1563294707 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1563196760 d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\controller.h
+	"LinkedList.h"
+
+1563197257 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"dominio.h"
+
+1563197984 source:d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Controller.h"
+	"LinkedList.h"
+	"dominio.h"
+	"parser.h"
+	"inputs.h"
+
+1563196754 d:\escritorio\esqueleto_parcial2\recuperatorio parcial 2\parser.h
+
+1563197984 source:d:\escritorio\recuperatorio parcial 2\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Controller.h"
+	"LinkedList.h"
+	"dominio.h"
+	"parser.h"
+	"inputs.h"
+
+1563196760 d:\escritorio\recuperatorio parcial 2\controller.h
+	"LinkedList.h"
+
+1561760359 d:\escritorio\recuperatorio parcial 2\linkedlist.h
+
+1563295401 d:\escritorio\recuperatorio parcial 2\dominio.h
+
+1563543309 d:\escritorio\recuperatorio parcial 2\parser.h
+
+1561751374 d:\escritorio\recuperatorio parcial 2\inputs.h
+
+1561751374 source:d:\escritorio\recuperatorio parcial 2\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"inputs.h"
+
+1563048056 source:d:\escritorio\recuperatorio parcial 2\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1563545464 source:d:\escritorio\recuperatorio parcial 2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1563544281 source:d:\escritorio\recuperatorio parcial 2\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"dominio.h"
+
+1563295402 source:d:\escritorio\recuperatorio parcial 2\dominio.c
+	"dominio.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1563581020 source:d:\escritorio\recuperatorio parcial 2 - copia\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Controller.h"
+	"LinkedList.h"
+	"hermanos.h"
+	"parser.h"
+	"inputs.h"
+
+1563576027 d:\escritorio\recuperatorio parcial 2 - copia\controller.h
+	"LinkedList.h"
+
+1561760359 d:\escritorio\recuperatorio parcial 2 - copia\linkedlist.h
+
+1563581026 d:\escritorio\recuperatorio parcial 2 - copia\dominio.h
+
+1563543309 d:\escritorio\recuperatorio parcial 2 - copia\parser.h
+
+1561751374 d:\escritorio\recuperatorio parcial 2 - copia\inputs.h
+
+1563295402 source:d:\escritorio\recuperatorio parcial 2 - copia\dominio.c
+	"dominio.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1561751374 source:d:\escritorio\recuperatorio parcial 2 - copia\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"inputs.h"
+
+1563048056 source:d:\escritorio\recuperatorio parcial 2 - copia\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1563577997 source:d:\escritorio\recuperatorio parcial 2 - copia\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1563580560 source:d:\escritorio\recuperatorio parcial 2 - copia\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"hermanos.h"
+
+1563580101 source:d:\escritorio\recuperatorio parcial 2 - copia\fecha.c
+	"fecha.h"
+	<string.h>
+
+1563580921 source:d:\escritorio\recuperatorio parcial 2 - copia\hermanos.c
+	"hermanos.h"
+	"fecha.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1563576253 source:d:\escritorio\recuperatorio parcial 2 - copia\asignaciones.c
+
+1563580985 d:\escritorio\recuperatorio parcial 2 - copia\hermanos.h
+	"fecha.h"
+
+1563580101 d:\escritorio\recuperatorio parcial 2 - copia\fecha.h
+
+1564003785 source:d:\escritorio\programa de asignaciones\asignaciones.c
+	"asignaciones.h"
+	"fecha.h"
+	<stdlib.h>
+	<stdio.h>
+
+1564004072 source:d:\escritorio\programa de asignaciones\fecha.c
+	"fecha.h"
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+
+1563811430 d:\escritorio\programa de asignaciones\fecha.h
+
+1564002540 source:d:\escritorio\programa de asignaciones\hermanos.c
+	"hermanos.h"
+	"asignaciones.h"
+	"fecha.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1564002710 d:\escritorio\programa de asignaciones\hermanos.h
+	"fecha.h"
+	"asignaciones.h"
+	"LinkedList.h"
+
+1564003847 d:\escritorio\programa de asignaciones\asignaciones.h
+	"fecha.h"
+
+1563938906 d:\escritorio\programa de asignaciones\linkedlist.h
+
+1563752631 source:d:\escritorio\programa de asignaciones\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"inputs.h"
+
+1563642416 d:\escritorio\programa de asignaciones\inputs.h
+
+1563998668 source:d:\escritorio\programa de asignaciones\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1564000624 source:d:\escritorio\programa de asignaciones\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"dominio.h"
+
+1564000651 d:\escritorio\programa de asignaciones\controller.h
+	"LinkedList.h"
+
+1563581026 d:\escritorio\programa de asignaciones\dominio.h
+
+1563930427 source:d:\escritorio\programa de asignaciones\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"hermanos.h"
+
+1564003748 source:d:\escritorio\programa de asignaciones\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Controller.h"
+	"LinkedList.h"
+	"hermanos.h"
+	"asignaciones.h"
+	"parser.h"
+	"inputs.h"
+
+1563543309 d:\escritorio\programa de asignaciones\parser.h
+
