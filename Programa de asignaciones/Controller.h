@@ -6,13 +6,16 @@ typedef struct
     char nombreUsuario[30];
     char pathListaHermanos[50];
     char pathListaAsignaciones[50];
+    char temaConsola[30];
     int primeraVez;
 }eConfiguracion;
 
-
+void showLogo(void);
 
 int controller_loadFromText(char* path , LinkedList* pArrayList);
 int controller_loadFromBinary(char* path , LinkedList* pArrayList);
+
+///HERMANOS
 int controller_addHermano(LinkedList* pArrayList);
 int controller_addAsignacion(LinkedList* listaAsignacion,LinkedList* listaHermanos);
 int controller_searchHermano(LinkedList* this);
@@ -31,9 +34,10 @@ int controller_saveAsText(char* path , LinkedList* pArrayList);
 
 int controller_saveAsBinary(char* path , LinkedList* pArrayList);
 
-int controller_asignarTipos(LinkedList* this,int(*pFn)(void*elementA, void*elementB));
 
 ///CONFIGURACIONES
 eConfiguracion* configuracion_newParam(int logo,char* userName,char* listaHermanos,char* listaAsignaciones,int primeraVez);
 int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHermanos,LinkedList* listaAsignaciones);
 eConfiguracion* cargarConfiguracion(char* path,int aplicar);
+int controller_saveHermanosAsignaciones(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config);
+int controller_configuracion(eConfiguracion* config);

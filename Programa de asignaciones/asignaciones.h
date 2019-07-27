@@ -18,6 +18,7 @@ int asignacion_searchFecha(eAsignacion* element1, eAsignacion* element2);
 int asignacion_searchSala(eAsignacion* element1, eAsignacion* element2);
 int asignacion_searchAsignacion(eAsignacion* element1, eAsignacion* element2);
 eAsignacion* asignacion_searchByIdData(int* id,eFecha* fecha,LinkedList* this);
+int asignacion_searchFechaMes(eAsignacion* element1, eAsignacion* element2);
 
 
 void harcodearAsignaciones(LinkedList* this);

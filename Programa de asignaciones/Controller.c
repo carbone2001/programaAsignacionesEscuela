@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <windows.h>
 #include <string.h>
 #include <ctype.h>
 #include "Controller.h"
@@ -141,7 +142,6 @@ int controller_addHermano(LinkedList* pArrayList)
 int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHermanos)
 {
     int error = 1;
-
 
     int* id;
     char* sala;
@@ -435,6 +435,7 @@ eConfiguracion* configuracion_newParam(int logo,char* userName,char* listaHerman
         strcpy(config->pathListaHermanos,listaHermanos);
         strcpy(config->pathListaAsignaciones,listaAsignaciones);
         config->primeraVez=primeraVez;
+        strcpy(config->temaConsola,"COLOR F0");
     }
 
     return config;
@@ -1023,9 +1024,8 @@ eConfiguracion* cargarConfiguracion(char* path,int aplicar)
     int error = 1;
     int cant;
     eConfiguracion* auxConfig = (eConfiguracion*)malloc(sizeof(eConfiguracion));
-
     char* nombreUsuario = (char*) malloc (sizeof(char)*30);
-    int numero;
+
 
     if(aplicar == 1 && path != NULL)
     {
@@ -1042,26 +1042,21 @@ eConfiguracion* cargarConfiguracion(char* path,int aplicar)
             {
                 if(getString(nombreUsuario,"\n\n  Ingrese nombre de usuario: ","\nError. No debe superar los 30 caracteres\n",30)==0)
                 {
-                    if(getIntIntentos(&numero,"\n\n  Desea tener el fondo negro con letras blancas(1) o fondo blanco con letras rojas(2)?\nIngrese opcion(1 o 2): ","\nOpcion invalida!\n",1,2,1)==0)
+                    strlwr(nombreUsuario);
+                    nombreUsuario[0] = toupper(nombreUsuario[0]);
+                    printf("\n  Perfecto!!  \n");
+                    system("pause");
+                    system("cls");
+                    auxConfig = configuracion_newParam(1,nombreUsuario,"listaHermanos.bin","listaAsignaciones.bin",0);
+                    if(auxConfig != NULL)
                     {
-                        if(numero == 2)
+                        cant = fwrite(auxConfig,sizeof(eConfiguracion),1,configFile);
+                        if(cant == 1)
                         {
-                            system("COLOR 7C");
-                        }
-
-                        printf("\n  Perfecto!!  \n");
-                        system("pause");
-                        system("cls");
-                        auxConfig = configuracion_newParam(1,nombreUsuario,"listaHermanos.bin","listaAsignaciones.bin",0);
-                        if(auxConfig != NULL)
-                        {
-                            cant = fwrite(auxConfig,sizeof(eConfiguracion),1,configFile);
-                            if(cant == 1)
-                            {
-                                error = 0;
-                            }
+                            error = 0;
                         }
                     }
+
                 }
             }
         }
@@ -1084,6 +1079,7 @@ eConfiguracion* cargarConfiguracion(char* path,int aplicar)
     {
         auxConfig=NULL;
     }
+    fclose(configFile);
     return auxConfig;
 
 }
@@ -1093,9 +1089,18 @@ int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHerm
     FILE* hermanosFile;
     int error = 1;
     FILE* asignacionesFiles;
-    eHermano* hno = (eHermano*)malloc(sizeof(eHermano));
-    eAsignacion* asig = (eAsignacion*)malloc(sizeof(eAsignacion));
+    eHermano* hno;
+    eAsignacion* asig;
     int cant;
+
+    if(config->arranqueLogo==1)
+    {
+        showLogo();
+        Sleep(2000);
+    }
+    system(config->temaConsola);
+
+
 
     hermanosFile = fopen(config->pathListaHermanos,"rb");
     if(hermanosFile == NULL)
@@ -1116,10 +1121,14 @@ int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHerm
     }
     else
     {
+        //fseek(hermanosFile,0L,SEEK_SET);
+        rewind(hermanosFile);
         while(!feof(hermanosFile))
         {
+            hno = (eHermano*)malloc(sizeof(eHermano));
             cant = fread(hno,sizeof(eHermano),1,hermanosFile);
-            if(cant != 0)
+
+            if(cant != 1)
             {
                 if(feof(hermanosFile))
                 {
@@ -1129,15 +1138,21 @@ int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHerm
             }
             if(hno != NULL)
             {
+
                 if(ll_add(listaHermanos,hno))
                 {
+
+                    error = 1;
                     break;
                 }
-            }
 
+                fflush(stdin);
+            }
         }
     }
     fclose(hermanosFile);
+
+
 
 
 
@@ -1161,9 +1176,14 @@ int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHerm
     }
     else
     {
+        //fseek(asignacionesFiles,0L,SEEK_SET);
+
+        rewind(asignacionesFiles);
         while(!feof(asignacionesFiles))
         {
+            asig = (eAsignacion*)malloc(sizeof(eAsignacion));
             cant = fread(asig,sizeof(eAsignacion),1,asignacionesFiles);
+
             if(cant != 1)
             {
                 if(feof(asignacionesFiles))
@@ -1172,20 +1192,508 @@ int controller_aplicarConfiguracion(eConfiguracion* config,LinkedList* listaHerm
                     break;
                 }
             }
-            if(asig != NULL)
+
+            if(ll_add(listaAsignaciones,asig))
             {
-                if(ll_add(listaAsignaciones,asig))
-                {
-                    break;
-                }
+
+                error = 1;
+                break;
             }
 
+            fflush(stdin);
         }
     }
     fclose(asignacionesFiles);
 
 
+
+    return error;
+}
+
+int controller_saveHermanosAsignaciones(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config)
+{
+    FILE* asignacionesFile;
+    FILE* hermanosFile;
+    FILE* configFile;
+
+    eHermano* hno;
+    eAsignacion* asig;
+
+    int error=1;
+    int cant;
+
+    ///GUARDAR HERMANOS
+    hermanosFile = fopen(config->pathListaHermanos,"wb");
+    if(hermanosFile!=NULL)
+    {
+        fseek(hermanosFile,0L,SEEK_END);
+        for(int i=0; i<ll_len(listaHermanos); i++)
+        {
+            hno = ll_get(listaHermanos,i);
+
+            if(hno != NULL)
+            {
+                cant = fwrite(hno,sizeof(eHermano),1,hermanosFile);
+                if(cant == 1)
+                {
+                    error = 0;
+                }
+                else
+                {
+                    error = 1;
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    else
+    {
+        printf("\nError al intentar guardar el archivo. Parece que el destino(%s) no existe.",config->pathListaHermanos);
+    }
+    fclose(hermanosFile);
+
+
+
+    ///GUARDAR ASIGNACIONES
+    asignacionesFile = fopen(config->pathListaAsignaciones,"wb");
+    if(asignacionesFile!=NULL)
+    {
+        fseek(asignacionesFile,0L,SEEK_END);
+        for(int i=0; i<ll_len(listaAsignaciones); i++)
+        {
+            asig = ll_get(listaAsignaciones,i);
+            if(asig != NULL)
+            {
+
+                cant = fwrite(asig,sizeof(eAsignacion),1,asignacionesFile);
+                if(cant == 1)
+                {
+                    error = 0;
+                }
+                else
+                {
+                    error = 1;
+                    break;
+                }
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    else
+    {
+        printf("\nError al intentar guardar el archivo. Parece que el destino(%s) no existe.",config->pathListaAsignaciones);
+        error = 1;
+    }
+    fclose(asignacionesFile);
+
+    ///GUARDAR CONFIGURACIONES
+    configFile = fopen("config.bin","wb");
+    if(configFile != NULL)
+    {
+
+        cant = fwrite(config,sizeof(eConfiguracion),1,configFile);
+        if(cant != 1)
+        {
+            printf("\nError al guardar configuraciones\n");
+            error = 1;
+            system("pause");
+        }
+
+    }
+    else
+    {
+        printf("\nNo se ha guardar las configuraciones de arranque. Estamos en un grave problema.\n");
+        system("pause");
+    }
+    fclose(configFile);
+
+
+
+    if(error == 0)
+    {
+        printf("\n Se han guardado los cambios realizados\n");
+        system("pause");
+    }
+    else
+    {
+        printf("\n Ha ocurrido un error al guardar los cambios\n");
+        system("pause");
+    }
+
+
+
+    return error;
+}
+
+int controller_configuracion(eConfiguracion* config)
+{
+    int opcion;
+    int error = 1;
+    char* string;
+
+    do
+    {
+        printf("\n *** Configuraciones ***");
+        printf("\n 1. Modificar nombre de usuario");
+        printf("\n 2. Modifcar destino del archivo de hermanos");
+        printf("\n 3. Modificar destino del archivo de asignaciones");
+        printf("\n 4. Cambiar a color de consola");
+        printf("\n 5. Desactivar logo");
+        printf("\n 6. Volver al menu");
+        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n",1,6,1);
+        switch(opcion)
+        {
+        case 1:
+            string = (char*)malloc(sizeof(char)*30);
+            if(getString(string,"\nIngrese su nombre de usuario: ","\nEl nombre no debe superar los 30 caracteres.\n",30)==0)
+            {
+                strcpy(config->nombreUsuario,string);
+                printf("\nEl nombre ha sido modificado con exito\n");
+                error=0;
+                system("pause");
+            }
+            else
+            {
+                printf("\nNo se ha podido cambiar el nombre\n");
+                system("pause");
+            }
+            break;
+        case 2:
+            string = (char*)malloc(sizeof(char)*30);
+            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50))
+            {
+                strcpy(config->pathListaHermanos,string);
+                printf("\nEl nombre de destino ha sid modificado con exito\n");
+                error=0;
+                system("pause");
+            }
+            break;
+        case 3:
+            string = (char*)malloc(sizeof(char)*30);
+            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50))
+            {
+                strcpy(config->pathListaAsignaciones,string);
+                printf("\nEl nombre de destino ha sid modificado con exito\n");
+                error=0;
+                system("pause");
+            }
+            break;
+        case 4:
+            if(strcmp(config->temaConsola,"COLOR F0")==0)
+            {
+                strcpy(config->temaConsola,"COLOR 0F");
+                error=0;
+            }
+            else
+            {
+                strcpy(config->temaConsola,"COLOR F0");
+                error=0;
+            }
+            system(config->temaConsola);
+            break;
+        case 5:
+            if(config->arranqueLogo==1)
+            {
+                config->arranqueLogo=0;
+                printf("\n Se ha deshabilitado el logo\n");
+                system("pause");
+            }
+            else
+            {
+                config->arranqueLogo=1;
+                printf("\n Se ha habilitado el logo\n");
+                system("pause");
+            }
+            break;
+        }
+        system("cls");
+    }
+    while(opcion != 6);
+    if(error)
+    {
+        printf("\nNo se ha podido aplicar la configuracion\n");
+        system("pause");
+    }
+
+    return error;
+}
+
+int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList* listaAsignaciones)
+{
+    int len;
+    int* listaIndicesAsig;
+    FILE* csvFile;
+    eHermano* hnos = (eHermano*)malloc(sizeof(eHermano));
+    eAsignacion* asigAux = (eAsignacion*)malloc(sizeof(eAsignacion));
+    eAsignacion* asig =  asignacion_new();
+    char nombreArchivo[25] = " ";
+    char nombreAsignacion[25];
+    int (*pFunc)();
+    int mes;
+    int cant;
+    int error = 0;
+
+    char anio[4];
+
+
+
+
+    if(getIntIntentos(&mes,"\nIngrese el mes que desea registrar: ","\n Mes invalido!\n",1,12,1)==0)
+    {
+
+        (*asig).fecha.mes = mes;
+        printf("mes ingresado: %d",(*asig).fecha.mes);
+        system("pause");
+        switch(mes)
+        {
+        case 1:
+            strcat(nombreArchivo,"Enero ");
+            break;
+        case 2:
+            strcat(nombreArchivo,"Febrero ");
+            break;
+        case 3:
+            strcat(nombreArchivo,"Marzo ");
+            break;
+        case 4:
+            strcat(nombreArchivo,"Abril ");
+            break;
+        case 5:
+            strcat(nombreArchivo,"Mayo ");
+            break;
+        case 6:
+            strcat(nombreArchivo,"Junio ");
+            break;
+        case 7:
+            strcat(nombreArchivo,"Julio ");
+            break;
+        case 8:
+            strcat(nombreArchivo,"Agosto ");
+            break;
+        case 9:
+            strcat(nombreArchivo,"Septiembre ");
+            break;
+        case 10:
+            strcat(nombreArchivo,"Octubre ");
+            break;
+        case 11:
+            strcat(nombreArchivo,"Noviembre ");
+            break;
+        case 12:
+            strcat(nombreArchivo,"Diciembre ");
+            break;
+        }
+
+        if(getString(anio,"\nIngrese el anio de dicho mes: ","\n Anio invalido!\n",4)==0)
+        {
+
+
+            (*asig).fecha.anio = atoi(anio);
+            strcat(nombreArchivo,anio);
+            strcat(nombreArchivo,".csv");
+            //printf("Nombre del archivo: %s Nombre mes %d\n",nombreArchivo,mes);
+            //system("pause");
+
+            csvFile = fopen(nombreArchivo,"w+");
+
+            if(csvFile != NULL)
+            {
+                fprintf(csvFile,"Hermanos\tAsignacion\tSala\tFecha\r");
+                pFunc = asignacion_searchFechaMes;
+                listaIndicesAsig = ll_search(listaAsignaciones,asig,pFunc,&len);
+                for(int i=0; i<len; i++)
+                {
+                    asigAux = ll_get(listaAsignaciones,listaIndicesAsig[i]);
+                    if(asigAux != NULL)
+                    {
+                        ///1. Primera visita/2.Revisita/3. Estudio biblico/4.Lectura biblica/5. Discurso biblico
+                        switch(asigAux->asignacion)
+                        {
+                        case 1:
+                            strcpy(nombreAsignacion,"Primera visita");
+                            break;
+                        case 2:
+                            strcpy(nombreAsignacion,"Revisita");
+                            break;
+                        case 3:
+                            strcpy(nombreAsignacion,"Estudio biblico");
+                            break;
+                        case 4:
+                            strcpy(nombreAsignacion,"Lectura biblica");
+                            break;
+                        case 5:
+                            strcpy(nombreAsignacion,"Discurso");
+                            break;
+                        }
+
+                        hnos = hermano_searchGetById(&(asigAux->idHermano),listaHermanos);
+                        if(hnos!=NULL)
+                        {
+                            cant = fprintf(csvFile,"%s %s\t%s\t%c\t%02d/%02d/%04d\r",hnos->apellido,hnos->nombre,nombreAsignacion,asigAux->sala,asigAux->fecha.dia,asigAux->fecha.mes,asigAux->fecha.anio);
+                            if(cant == 0)
+                            {
+                                printf("\nHubo un error en la escritura de datos\n");
+                                system("pause");
+                                error = 1;
+                                break;
+                            }
+                        }
+                        else
+                        {
+                            printf("\nError al buscar los hermanos\n");
+                            error = 1;
+                            system("pause");
+                        }
+
+                    }
+                    else
+                    {
+                        printf("\nError al buscar las asignaciones\n");
+                        error = 1;
+                        system("pause");
+                        break;
+                    }
+
+                }
+            }
+            else
+            {
+                printf("\nNo se ha podido crear el archivo. Seguro ya existe otro del mismo mes y anio.\n Eliminelo para crear otro nuevo\n");
+                error = 1;
+                system("pause");
+            }
+
+
+
+        }
+        else
+        {
+            error = 1;
+        }
+    }
+    else
+    {
+        error = 1;
+    }
+    fclose(csvFile);
+    return error;
+}
+
+
+
+int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config)
+{
+    char respuesta;
+    int error=1;
+    int opcion;
+    respuesta = getChar("\n Desea guardar los cambios? (s/n) \n");
+    switch(respuesta)
+    {
+    case 's':
+        printf("\nComo lo quiere guardar?\n");
+        printf("\n1. Guardar solo el archivo predeterminado");
+        printf("\n2. Guardar lista un mes de asignaciones para Exel");
+        printf("\n3. Salir sin guardar");
+        if(getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!",1,3,1)==0)
+        {
+            switch(opcion)
+            {
+            case 1:
+                if(controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config)==0)
+                {
+                    printf("\n Se han guardado los cambios!\n");
+                    error=0;
+                    system("pause");
+                }
+                break;
+            case 2:
+                controller_saveHermanosAsignacionesCSV(listaHermanos,listaAsignaciones);
+
+                break;
+            case 3:
+                printf("\n Ok! Los cambios nos se guardaran.");
+                error=0;
+                Sleep(1000);
+                break;
+            }
+        }
+        break;
+    case 'n':
+        printf("\n Ok! Los cambios nos se guardaran.");
+        error=0;
+        Sleep(1000);
+        break;
+    }
+
+    printf("\n Hasta luego! :D\n");
+    Sleep(1000);
+
     return error;
 
 
+
+
 }
+
+
+
+void showLogo(void)
+{
+    printf("\n                                                                    ```                               \n");
+    printf("                            .---.                             -ohMMMmy+`                           \n");
+    printf("                          +hMMMMNm+.                        -yMMMMMMMMMh:                          \n");
+    printf("                        `hMMMMMMMMMNs`                    `oNMMMMMMMMMMMN/                         \n");
+    printf("                        hMMMMMMMMMMMMd-                  .mMMMMMMMMMMMMMMM                         \n");
+    printf("                        MMMMMMMMMMMMMMN+                .mMMMMMMMMMMMMMMMM:                        \n");
+    printf("                       MMMMMMMMMdMMMMMMy.             -NMMMMMMNMMMMMMMMMMh                         \n");
+    printf("                       -MMMMMMMMMMMMMMMMMd.           .dMMMMMNhmMMMMMMMMMMM`                       \n");
+    printf("                       oMMMMMMMMMMMMMMMMMMN:         .dMMMMMMMMMMMMMMMMMMMN`                       \n");
+    printf("                       oMMMMMMMMMMMMMMMMMMMd.       `yMMMMMMMMMMMMMMMMMMMMs                        \n");
+    printf("                       `MMMMMMMMMMMMMMMMMMMMd.      yMMMMMMMMMMMMMMMMMMMMMo                        \n");
+    printf("                        dMMMMMMMMMMMMMNMNMMMMy     :MMMMMMNmMMMMMMMMMMMMMM:                        \n");
+    printf("                        oMMMMMMMMMMMMMMMNNNhNN/`  `dMymNNMMNMMMMMMMMMMMMMMm`                       \n");
+    printf("                        hMMMMMMMMMMMMMMMNs-`:+/o :omy`./sNmMMMMMdyMMMMMMMMM`                       \n");
+    printf("                        MMMMMMMMMMMMMMMmh+`   `- d:/`   /hoMmh+dddMoyMMMMMh                        \n");
+    printf("                        NMMMMMMMMMMMMMMyo.  `s/-:..+`   `-yhoomMMMMNNMMMMM                         \n");
+    printf("                        :mMMMMMMMMMMNm/:s+   yNhy+.d.   `o/.sohNMMMMMMMMMM                         \n");
+    printf("                         +MMMMMMMMNmho`hh   /-shmohs.`/` yNs/sshMMMMMMMMMs                         \n");
+    printf("                         +MMMMMMMMMyo: -s  /Ndysomh+/sM: `h../+oNMMMMMMMh.                         \n");
+    printf("                         /MMMMMMMMmys.``/: mMMMMNMMMMMM/ `-``+mshhmmMMMm-                          \n");
+    printf("                         `NhyMMdMyyNm+-:./:dMMMMMMMMMMm````  +NN/+my+mMm/                          \n");
+    printf("                          dmdMo`MNms.   `  :NMMMMMMMMMs` .  ``yMNNh`od/oh                          \n");
+    printf("                          /MMMd/NMMm+   `   dMMMMMMMMm`:-  `--NMMMs-+:`o-                          \n");
+    printf("                          `sNNNNdMMMNy-``   +MMMMMMMMd  .`.:sdMMMm.:``                             \n");
+    printf("                            .:.s/yMMMMNmd/  .dMN+hMMy/  .dNNMMMdd+oy` `                            \n");
+    printf("                               ohhNdMMMMM``` -h/  hd- `  MMMMMMddyd:.+y`                           \n");
+    printf("                              `dhyNmydMMd.s+  .       :h:hMMNmmdysy-../                            \n");
+    printf("                           `/:yo`ymh::MM+mMd+.      -smMMdMMd++o:`` `:h                            \n");
+    printf("                           -ysd- .oNNmMMMMMMMd:`  .+NMMMMMMMMdso. `` `.                            \n");
+    printf("                           :Nh+shh++hNMMMMMMMMNh .mMMMMMMMMNd-   `y+                               \n");
+    printf("                         `:sMm`/dMy:.+omMMMMNho/..+ohNNNNds/-..:o/-                                \n");
+    printf("                  `.``  +hMMMMy`/mmmm+ `+hmMNdNMNNMNmd:-:.   sddd/                                 \n");
+    printf("                 -ys. `:/-sNMMMmy.-/My  y `/yNNNMMNmh+.  -  omNNh.                                 \n");
+    printf("              -o+   `+mMMNmNMNNMd:`sd-../    -:://:`     -. +y:.`/                                 \n");
+    printf("            .yNm:  `hMMhmNMMMosMmhdMmy`.-                 --:s+-                                   \n");
+    printf("          .ymMMy `  hMmsymMms+yohNMMNy` ``               -.:do/-/-                                 \n");
+    printf("         :NMMMy `s/`yMMMs:yms-   `Nmyhhyyh/:``.  ` ``.--+++sdNdhN-                                 \n");
+    printf("        sNNsdo  hMMNNMNm.`hMMN-``/mMMMMm--./hms-.oyhydMMMMMNmMMN-                                  \n");
+    printf("`./.  .+Mhydh `sMmhmh/-`.sMNNMNddNNMMMMMdhydmo-`hNhmMMMMMMMmmmMN.                                  \n");
+    printf(".-:` .sNMh-hs` +MmsdNy`` mMd::mMMMMMMm+-ohmMMd/+dMMMMMMMMMMhNMMMm-                                 \n");
+    printf(" `.+NMMmNm.   -ms+/`    `hsdNMMNMMMMd+.  -oodMMMMMMMMMMMMMyshNs-                                   \n");
+    printf("/y1mMMN+MMh.   -dyMMMd-:ydo+Nmms- oMMMMMMdo:` +NMMMMMMMMMMMMMMMN-                                  \n");
+    printf("MMMMMMMh.   /ymhds++mMMMM: ` ` :mmNo:/yhMMMmhosyN:+ymmMNNMMMMm+`/h-                                \n");
+    printf("MNNNMMm/    dMds-    yMMh.-` .oms-y/` `/MMMMMMMMMdo:.`.``-h/.`-+mNy                                \n");
+    printf("MmNMd/`    :MMN+  `` -NMMMNhymo-/+mNdmNNMMMMMdNMMMMMNdsydshssmMMMm/                                \n");
+    printf("MMMMMh`  ./dMMho:. shNMMMo -Nd.-m-./+mmooMMhodysydMMmMMMMMMMMMMMMM/                                \n");
+    printf("ooy/-   -MMMMMMm+ ydhd+.:/odNsoys-m:ysodMMd+/hy`omMM+oNMNMdyNMMMMMs                                \n");
+    printf("\n\n SERVAL TECHNOLOGIES 2019\t by Lucas Carbone\n");
+}
+
+

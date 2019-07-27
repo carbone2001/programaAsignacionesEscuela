@@ -15,6 +15,7 @@ int main()
 
     char *option;
     option = (char*) malloc (sizeof(char));
+    char respuesta;
     LinkedList* listaHermanos = ll_newLinkedList();
     LinkedList* listaAsignaciones = ll_newLinkedList();
     eConfiguracion* config = (eConfiguracion*)malloc(sizeof(eConfiguracion));
@@ -23,35 +24,34 @@ int main()
         printf("No se ha podido crear la lista de hermanos. Reinicie el programa.\n\n");
         system("pause");
     }
-    harcodearHermanos(listaHermanos);
-    harcodearAsignaciones(listaAsignaciones);
+    //harcodearHermanos(listaHermanos);
+    //harcodearAsignaciones(listaAsignaciones);
 
 
     if((config = cargarConfiguracion("config.bin",1))!=NULL)
     {
         if(controller_aplicarConfiguracion(config,listaHermanos,listaAsignaciones)==0)
         {
-            if(config->arranqueLogo==1)
-            {
-                showLogo();
-                Sleep(2000);
-            }
+
+            system("cls");
+            printf("\n Un gusto volverlo a ver %s!\n",config->nombreUsuario);
             do
             {
-                system("cls");
+
                 fflush(stdin);
-                printf("\n***** MENU *****\n");
-                printf("\n1.  Crear nueva asignacion");
-                printf("\n2.  Agrega hermano");
-                printf("\n3.  Buscar asignacion");
-                printf("\n4.  Buscar hermano");
-                printf("\n5.  Ver lista de hermanos"); ///tiene que poder ordenarse segun se desee
-                printf("\n6.  Ver lista de asignaciones");
-                printf("\n7.  Modificar hermano");
-                printf("\n8.  Modificar asignacion");
-                printf("\n9.  Configuracion");
-                printf("\n10. Salir\n");
+                printf("\n ***** MENU *****\n");
+                printf("\n 1.  Crear nueva asignacion");
+                printf("\n 2.  Agrega hermano");
+                printf("\n 3.  Buscar asignacion");
+                printf("\n 4.  Buscar hermano");
+                printf("\n 5.  Ver lista de hermanos"); ///tiene que poder ordenarse segun se desee
+                printf("\n 6.  Ver lista de asignaciones");
+                printf("\n 7.  Modificar hermano");
+                printf("\n 8.  Modificar asignacion");
+                printf("\n 9.  Configuracion");
+                printf("\n 10. Guardar y Salir\n");
                 fflush(stdin);
+                printf("\n Ingrese opcion: ");
                 scanf("%s",option);
 
 
@@ -87,23 +87,23 @@ int main()
                     controller_editAsignaciones(listaAsignaciones,listaHermanos);
                     break;
                 case 9:
-                    //controller_configuracion()
+                    controller_configuracion(config);
                     break;
                 case 10:
-                    //controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config);
-                    printf("\n Hasta luego! :)\n");
-                    Sleep(1000);
+                    controller_saveAndExit(listaHermanos,listaAsignaciones,config);
                     break;
                 default:
                     printf("\nOpcion invalida");
                     system("cls");
                     break;
                 }
+                system("cls");
             }
             while((atoi(option)) != 10);
             free(listaHermanos);
             free(listaAsignaciones);
             free(option);
+
 
         }
         else
@@ -121,54 +121,4 @@ int main()
 }
 
 
-void showLogo(void)
-{
-    printf("\n                                                                    ```                               \n");
-    printf("                            .---.                             -ohMMMmy+`                           \n");
-    printf("                          +hMMMMNm+.                        -yMMMMMMMMMh:                          \n");
-    printf("                        `hMMMMMMMMMNs`                    `oNMMMMMMMMMMMN/                         \n");
-    printf("                        hMMMMMMMMMMMMd-                  .mMMMMMMMMMMMMMMM                         \n");
-    printf("                        MMMMMMMMMMMMMMN+                .mMMMMMMMMMMMMMMMM:                        \n");
-    printf("                       MMMMMMMMMdMMMMMMy.             -NMMMMMMNMMMMMMMMMMh                         \n");
-    printf("                       -MMMMMMMMMMMMMMMMMd.           .dMMMMMNhmMMMMMMMMMMM`                       \n");
-    printf("                       oMMMMMMMMMMMMMMMMMMN:         .dMMMMMMMMMMMMMMMMMMMN`                       \n");
-    printf("                       oMMMMMMMMMMMMMMMMMMMd.       `yMMMMMMMMMMMMMMMMMMMMs                        \n");
-    printf("                       `MMMMMMMMMMMMMMMMMMMMd.      yMMMMMMMMMMMMMMMMMMMMMo                        \n");
-    printf("                        dMMMMMMMMMMMMMNMNMMMMy     :MMMMMMNmMMMMMMMMMMMMMM:                        \n");
-    printf("                        oMMMMMMMMMMMMMMMNNNhNN/`  `dMymNNMMNMMMMMMMMMMMMMMm`                       \n");
-    printf("                        hMMMMMMMMMMMMMMMNs-`:+/o :omy`./sNmMMMMMdyMMMMMMMMM`                       \n");
-    printf("                        MMMMMMMMMMMMMMMmh+`   `- d:/`   /hoMmh+dddMoyMMMMMh                        \n");
-    printf("                        NMMMMMMMMMMMMMMyo.  `s/-:..+`   `-yhoomMMMMNNMMMMM                         \n");
-    printf("                        :mMMMMMMMMMMNm/:s+   yNhy+.d.   `o/.sohNMMMMMMMMMM                         \n");
-    printf("                         +MMMMMMMMNmho`hh   /-shmohs.`/` yNs/sshMMMMMMMMMs                         \n");
-    printf("                         +MMMMMMMMMyo: -s  /Ndysomh+/sM: `h../+oNMMMMMMMh.                         \n");
-    printf("                         /MMMMMMMMmys.``/: mMMMMNMMMMMM/ `-``+mshhmmMMMm-                          \n");
-    printf("                         `NhyMMdMyyNm+-:./:dMMMMMMMMMMm````  +NN/+my+mMm/                          \n");
-    printf("                          dmdMo`MNms.   `  :NMMMMMMMMMs` .  ``yMNNh`od/oh                          \n");
-    printf("                          /MMMd/NMMm+   `   dMMMMMMMMm`:-  `--NMMMs-+:`o-                          \n");
-    printf("                          `sNNNNdMMMNy-``   +MMMMMMMMd  .`.:sdMMMm.:``                             \n");
-    printf("                            .:.s/yMMMMNmd/  .dMN+hMMy/  .dNNMMMdd+oy` `                            \n");
-    printf("                               ohhNdMMMMM``` -h/  hd- `  MMMMMMddyd:.+y`                           \n");
-    printf("                              `dhyNmydMMd.s+  .       :h:hMMNmmdysy-../                            \n");
-    printf("                           `/:yo`ymh::MM+mMd+.      -smMMdMMd++o:`` `:h                            \n");
-    printf("                           -ysd- .oNNmMMMMMMMd:`  .+NMMMMMMMMdso. `` `.                            \n");
-    printf("                           :Nh+shh++hNMMMMMMMMNh .mMMMMMMMMNd-   `y+                               \n");
-    printf("                         `:sMm`/dMy:.+omMMMMNho/..+ohNNNNds/-..:o/-                                \n");
-    printf("                  `.``  +hMMMMy`/mmmm+ `+hmMNdNMNNMNmd:-:.   sddd/                                 \n");
-    printf("                 -ys. `:/-sNMMMmy.-/My  y `/yNNNMMNmh+.  -  omNNh.                                 \n");
-    printf("              -o+   `+mMMNmNMNNMd:`sd-../    -:://:`     -. +y:.`/                                 \n");
-    printf("            .yNm:  `hMMhmNMMMosMmhdMmy`.-                 --:s+-                                   \n");
-    printf("          .ymMMy `  hMmsymMms+yohNMMNy` ``               -.:do/-/-                                 \n");
-    printf("         :NMMMy `s/`yMMMs:yms-   `Nmyhhyyh/:``.  ` ``.--+++sdNdhN-                                 \n");
-    printf("        sNNsdo  hMMNNMNm.`hMMN-``/mMMMMm--./hms-.oyhydMMMMMNmMMN-                                  \n");
-    printf("`./.  .+Mhydh `sMmhmh/-`.sMNNMNddNNMMMMMdhydmo-`hNhmMMMMMMMmmmMN.                                  \n");
-    printf(".-:` .sNMh-hs` +MmsdNy`` mMd::mMMMMMMm+-ohmMMd/+dMMMMMMMMMMhNMMMm-                                 \n");
-    printf(" `.+NMMmNm.   -ms+/`    `hsdNMMNMMMMd+.  -oodMMMMMMMMMMMMMyshNs-                                   \n");
-    printf("/y1mMMN+MMh.   -dyMMMd-:ydo+Nmms- oMMMMMMdo:` +NMMMMMMMMMMMMMMMN-                                  \n");
-    printf("MMMMMMMh.   /ymhds++mMMMM: ` ` :mmNo:/yhMMMmhosyN:+ymmMNNMMMMm+`/h-                                \n");
-    printf("MNNNMMm/    dMds-    yMMh.-` .oms-y/` `/MMMMMMMMMdo:.`.``-h/.`-+mNy                                \n");
-    printf("MmNMd/`    :MMN+  `` -NMMMNhymo-/+mNdmNNMMMMMdNMMMMMNdsydshssmMMMm/                                \n");
-    printf("MMMMMh`  ./dMMho:. shNMMMo -Nd.-m-./+mmooMMhodysydMMmMMMMMMMMMMMMM/                                \n");
-    printf("ooy/-   -MMMMMMm+ ydhd+.:/odNsoys-m:ysodMMd+/hy`omMM+oNMNMdyNMMMMMs                                \n");
-    printf("\n\n SERVAL TECHNOLOGIES 2019\t by Lucas Carbone\n");
-}
+

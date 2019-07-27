@@ -92,7 +92,7 @@ void printAsignaciones(LinkedList* this)
     }
 
 
-    printf("\n");
+    printf("\n\n");
 }
 
 
@@ -114,6 +114,18 @@ int asignacion_searchFecha(eAsignacion* element1, eAsignacion* element2)
     }
     return found;
 }
+
+
+int asignacion_searchFechaMes(eAsignacion* element1, eAsignacion* element2)
+{
+    int found=0;
+    if(element1->fecha.mes == element2->fecha.mes && element1->fecha.anio == element2->fecha.anio)
+    {
+        found=1;
+    }
+    return found;
+}
+
 
 int asignacion_searchSala(eAsignacion* element1, eAsignacion* element2)
 {
