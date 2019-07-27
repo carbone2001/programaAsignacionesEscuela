@@ -4,105 +4,119 @@
 #include "LinkedList.h"
 #include "inputs.h"
 #include "Controller.h"
-#include "dominio.h"
+#include "hermanos.h"
+#include "asignaciones.h"
+#include <windows.h>
 
 void showLogo(void);
 
 int main()
 {
 
-
-
-
     char *option;
-    //char path[30];
-    //int retorno = 1; ///El retorno sirve para que se respete cierto orden al ejecutar tareas que dependen de otras
-    //int (*pFunc)();
     option = (char*) malloc (sizeof(char));
     LinkedList* listaHermanos = ll_newLinkedList();
     LinkedList* listaAsignaciones = ll_newLinkedList();
-    //listaAsignaciones = asignacion_new();
+    eConfiguracion* config = (eConfiguracion*)malloc(sizeof(eConfiguracion));
     if(listaHermanos == NULL)
     {
         printf("No se ha podido crear la lista de hermanos. Reinicie el programa.\n\n");
         system("pause");
     }
     harcodearHermanos(listaHermanos);
+    harcodearAsignaciones(listaAsignaciones);
 
-    //showLogo();
 
-    do
+    if((config = cargarConfiguracion("config.bin",1))!=NULL)
     {
-        system("cls");
-        fflush(stdin);
-        printf("\n***** MENU *****\n");
-        printf("\n1.  Crear nueva asignacion");
-        printf("\n2.  Agrega hermano");
-        printf("\n3.  Buscar asignacion");
-        printf("\n4.  Buscar hermano");
-        printf("\n5.  Ver lista de hermanos"); ///tiene que poder ordenarse segun se desee
-        printf("\n6.  Ver lista de asignaciones");
-        printf("\n7.  Modificar hermano");
-        printf("\n8.  Modificar asignacion");
-        printf("\n9.  Configuracion");
-        printf("\n10. Salir\n");
-        fflush(stdin);
-        scanf("%s",option);
-
-
-        switch(atoi(option))
+        if(controller_aplicarConfiguracion(config,listaHermanos,listaAsignaciones)==0)
         {
-
-        case 1:
-            controller_addAsignacion(listaAsignaciones,listaHermanos);
-            break;
-        case 2:
-            controller_addHermano(listaHermanos);
-            break;
-        case 3:
-            controller_searchAsignacion(listaAsignaciones,listaHermanos);
-
-            break;
-        case 4:
-            controller_searchHermano(listaHermanos);
-            break;
-        case 5:
-            printf("   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion\n");
-            for(int i=0;i<ll_len(listaHermanos);i++)
+            if(config->arranqueLogo==1)
             {
-                printHermano(ll_get(listaHermanos,i));
+                showLogo();
+                Sleep(2000);
             }
+            do
+            {
+                system("cls");
+                fflush(stdin);
+                printf("\n***** MENU *****\n");
+                printf("\n1.  Crear nueva asignacion");
+                printf("\n2.  Agrega hermano");
+                printf("\n3.  Buscar asignacion");
+                printf("\n4.  Buscar hermano");
+                printf("\n5.  Ver lista de hermanos"); ///tiene que poder ordenarse segun se desee
+                printf("\n6.  Ver lista de asignaciones");
+                printf("\n7.  Modificar hermano");
+                printf("\n8.  Modificar asignacion");
+                printf("\n9.  Configuracion");
+                printf("\n10. Salir\n");
+                fflush(stdin);
+                scanf("%s",option);
+
+
+                switch(atoi(option))
+                {
+
+                case 1:
+                    controller_addAsignacion(listaAsignaciones,listaHermanos);
+                    break;
+                case 2:
+                    controller_addHermano(listaHermanos);
+                    break;
+                case 3:
+                    controller_searchAsignacion(listaAsignaciones,listaHermanos);
+                    break;
+                case 4:
+                    controller_searchHermano(listaHermanos);
+                    break;
+                case 5:
+                    printHermanos(listaHermanos);
+                    system("pause");
+                    system("cls");
+                    break;
+                case 6:
+                    printAsignaciones(listaAsignaciones);
+                    system("pause");
+                    system("cls");
+                    break;
+                case 7:
+                    controller_editHermanos(listaHermanos);
+                    break;
+                case 8:
+                    controller_editAsignaciones(listaAsignaciones,listaHermanos);
+                    break;
+                case 9:
+                    //controller_configuracion()
+                    break;
+                case 10:
+                    //controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config);
+                    printf("\n Hasta luego! :)\n");
+                    Sleep(1000);
+                    break;
+                default:
+                    printf("\nOpcion invalida");
+                    system("cls");
+                    break;
+                }
+            }
+            while((atoi(option)) != 10);
+            free(listaHermanos);
+            free(listaAsignaciones);
+            free(option);
+
+        }
+        else
+        {
+            printf("\n ERROR FATAL! No se pudo aplicar la configuracion de arranque\n");
             system("pause");
-            system("cls");
-            break;
-        case 6:
-            printf("   ID del hermano       Sala        Asignacion            Fecha\n");
-
-            for(int i=0;i<ll_len(listaAsignaciones);i++)
-            {
-                printAsignacion(ll_get(listaAsignaciones,i));
-            }
-            system("\npause");
-            system("cls");
-
-            break;
-        case 7:
-
-            break;
-        case 8:
-            break;
-            case 9:
-            break;
-            case 10:
-            break;
-        default:
-            printf("\nOpcion invalida");
-            system("cls");
-            break;
         }
     }
-    while((atoi(option)) != 10);
-
+    else
+    {
+        printf("\nERROR FATAL! No se ha podido cargar la configuracion de arranque.\n");
+        system("pause");
+    }
     return 0;
 }
 
@@ -157,8 +171,4 @@ void showLogo(void)
     printf("MMMMMh`  ./dMMho:. shNMMMo -Nd.-m-./+mmooMMhodysydMMmMMMMMMMMMMMMM/                                \n");
     printf("ooy/-   -MMMMMMm+ ydhd+.:/odNsoys-m:ysodMMd+/hy`omMM+oNMNMdyNMMMMMs                                \n");
     printf("\n\n SERVAL TECHNOLOGIES 2019\t by Lucas Carbone\n");
-    system("pause");
-    system("cls");
-
-
 }

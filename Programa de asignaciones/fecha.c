@@ -24,9 +24,11 @@ eFecha strToData(char* str)
 
 eFecha* newFecha(int dia,int mes,int anio)
 {
+
     eFecha* fechaAux;
     if((dia >=0 && dia<=31) && (mes >= 0 && mes <= 12) && (anio >= 2000 && dia <= 2030))
     {
+
         fechaAux = (eFecha*) malloc (sizeof(eFecha));
         if(fechaAux != NULL)
         {
@@ -66,7 +68,10 @@ eFecha* pedirFecha(void)
     scanf("%d",&mes);
     printf("\n\tAnio: ");
     scanf("%d",&anio);
+
+
     fechaAux = newFecha(dia,mes,anio);
+
 
 
     return fechaAux;
@@ -74,7 +79,7 @@ eFecha* pedirFecha(void)
 
 void printFecha(eFecha* fecha)
 {
-    printf("%d/",fecha->dia);
-    printf("%d/",fecha->mes);
-    printf("%d",fecha->anio);
+    printf("%02d/",fecha->dia);
+    printf("%02d/",fecha->mes);
+    printf("%04d",fecha->anio);
 }

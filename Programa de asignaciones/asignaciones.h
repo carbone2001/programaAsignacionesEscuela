@@ -1,5 +1,5 @@
 #include "fecha.h"
-
+#include "LinkedList.h"
 #ifndef ASIGNACIONES_H_INCLUDED
 #define ASIGNACIONES_H_INCLUDED
 
@@ -15,5 +15,12 @@ eAsignacion* asignacion_new(void);
 eAsignacion* asignacion_newParametros(int* idHermano,int* asignacion,char* sala,eFecha* fecha);
 int asignacion_searchId(eAsignacion* element1, eAsignacion* element2);
 int asignacion_searchFecha(eAsignacion* element1, eAsignacion* element2);
+int asignacion_searchSala(eAsignacion* element1, eAsignacion* element2);
+int asignacion_searchAsignacion(eAsignacion* element1, eAsignacion* element2);
+eAsignacion* asignacion_searchByIdData(int* id,eFecha* fecha,LinkedList* this);
+
+
+void harcodearAsignaciones(LinkedList* this);
 void printAsignacion(eAsignacion* elemento);
+void printAsignaciones(LinkedList* this);
 #endif // ASIGNACIONES_H_INCLUDED

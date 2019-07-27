@@ -386,3 +386,92 @@
 
 1563543309 d:\escritorio\programa de asignaciones\parser.h
 
+1564110903 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.c
+	"asignaciones.h"
+	"LinkedList.h"
+	"fecha.h"
+	<stdlib.h>
+	<stdio.h>
+
+1564108454 d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.h
+	"fecha.h"
+	"LinkedList.h"
+
+1563811430 d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.h
+
+1564191821 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"Controller.h"
+	"LinkedList.h"
+	"hermanos.h"
+	"asignaciones.h"
+	"parser.h"
+	"inputs.h"
+
+1564191272 d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.h
+	"LinkedList.h"
+
+1563938906 d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.h
+
+1564067427 d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.h
+	"fecha.h"
+	"asignaciones.h"
+	"LinkedList.h"
+
+1563543309 d:\escritorio\programaasignacionesescuela\programa de asignaciones\parser.h
+
+1563642416 d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.h
+
+1564110903 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.c
+	"fecha.h"
+	<string.h>
+	<stdlib.h>
+	<stdio.h>
+
+1564105595 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.c
+	"hermanos.h"
+	"asignaciones.h"
+	"fecha.h"
+	<stdlib.h>
+	<string.h>
+	<stdio.h>
+	<ctype.h>
+	"LinkedList.h"
+
+1563752631 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	<ctype.h>
+	<conio.h>
+	"inputs.h"
+
+1564068229 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+
+1563930427 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\parser.c
+	<stdio.h>
+	<stdlib.h>
+	"LinkedList.h"
+	"hermanos.h"
+
+1564191713 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"LinkedList.h"
+	"inputs.h"
+	"Controller.h"
+	"hermanos.h"
+	"asignaciones.h"
+	<windows.h>
+
+1563581026 d:\escritorio\programaasignacionesescuela\programa de asignaciones\dominio.h
+

@@ -112,7 +112,37 @@ void printHermano(eHermano* p)
         break;
     }
     printf("             %2d/%2d/%4d",p->ultimaAsignacion.fecha.dia,p->ultimaAsignacion.fecha.mes,p->ultimaAsignacion.fecha.anio);
+    if(p->estado)
+    {
+        printf("%20s","Habilitado");
+    }
+    else
+    {
+        printf("%20s","Deshabilitado");
+    }
 }
+
+
+
+void printHermanos(LinkedList* this)
+{
+    printf("   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado\n");
+            if(ll_len(this)!=0)
+            {
+                for(int i=0; i<ll_len(this); i++)
+                {
+                    printHermano(ll_get(this,i));
+                }
+            }
+            else
+            {
+                printf("\nNo hay resultados. ");
+            }
+
+            printf("\n");
+}
+
+
 
 
 
@@ -191,30 +221,6 @@ int getTelefono(eHermano* this,char* telefono)
 }
 
 
-/*
-int setTipo(eHermano* this,char tipo)
-{
-    int error = 1;
-
-    if(this != NULL && (tipo == 'M' || tipo == 'A' || tipo == ' '))
-    {
-        this->tipo = tipo;
-        error = 0;
-    }
-    return error;
-}
-int getTipo(eHermano* this,char* tipo)
-{
-    int error = 1;
-    if (this != NULL || (*tipo == 'M' || *tipo == 'A'))
-    {
-        *tipo = this->tipo;
-        error = 0;
-    }
-    return error;
-
-}
-*/
 
 
 
@@ -273,7 +279,7 @@ int setPrivilegio(eHermano* this,int priv)
 {
     int error = 1;
 
-    if(this != NULL && priv>0 && priv<=2)
+    if(this != NULL && priv>0 && priv<=3)
     {
         this->privilegio = priv;
         error = 0;
@@ -342,32 +348,6 @@ int getUltAsig(eHermano* this,eAsignacion* ultAsig)
 
 
 
-
-/*int ordenSegunNumero(void *elemento,void* elemento2)
-{
-    int retorno;
-    if(elemento2>elemento)
-    {
-        retorno = 1;
-    }
-    else if(elemento2==elemento)
-    {
-        retorno = 0;
-    }
-    else
-    {
-        retorno = -1;
-    }
-    return retorno;
-}*/
-
-/*int ordenSegunAlfabeto(eHermano *cadena,void* cadena2)
-{
-    int retorno = strcmp(cadena);
-
-    return retorno;
-}*/
-
 int idcmp(eHermano* elemento1, eHermano* elemento2)
 {
     int retorno = -2;
@@ -389,27 +369,6 @@ int idcmp(eHermano* elemento1, eHermano* elemento2)
     return retorno;
 }
 
-/*
-int aniocmp(eHermano* elemento1, eHermano* elemento2)
-{
-    int retorno = -2;
-    if(elemento1 != NULL && elemento2 != NULL)
-    {
-        if(elemento1->anio>elemento2->anio)
-        {
-            retorno = 1;
-        }
-        else if (elemento1->anio < elemento2->anio)
-        {
-            retorno = -1;
-        }
-        else
-        {
-            retorno = 0;
-        }
-    }
-    return retorno;
-}*/
 
 int otorgarID(LinkedList* this)
 {

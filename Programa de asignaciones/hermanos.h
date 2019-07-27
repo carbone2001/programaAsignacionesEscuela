@@ -17,6 +17,11 @@ typedef struct
      int estado;
  }eHermano;
 
+void printHermano(eHermano* p);
+void printHermanos(LinkedList* this);
+void harcodearHermanos(LinkedList* this);
+
+
 eHermano* hermano_newParametrosStr(char* idStr,char* nombreStr,char* apellidoStr,char* telefonoStr,char* servMinistStr,char* privilegioStr,eAsignacion* ultimaAsignacionStr,char* estado);
 eHermano* hermano_newParametros(int* idStr,char* nombreStr,char* apellidoStr,char* telefonoStr,int* servMinistStr,int* privilegioStr,eAsignacion* ultimaAsignacionStr,int* estado);
 
@@ -46,7 +51,7 @@ int setEstado(eHermano* this,int estado);
 int getEstado(eHermano* this,int* estado);
 
 
-void printHermano(eHermano* p);
+
 int otorgarID(LinkedList* this);
 
 int hermano_searchId(eHermano* elemento1,eHermano* elemento2);
@@ -58,5 +63,4 @@ int hermano_searchAsignacion(eHermano* elemento1,eHermano* elemento2);
 int hermano_searchAsignacionSemana(eHermano* elemento1,eHermano* elemento2);
 eHermano* hermano_searchGetById(int* id,LinkedList* this);
 
-void harcodearHermanos(LinkedList* this);
 #endif // dominio_H_INCLUDED

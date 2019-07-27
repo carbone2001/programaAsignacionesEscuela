@@ -577,6 +577,7 @@ int* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*),int* le
         aux = ll_get(this,i);
         if(pFunc(element,aux))
         {
+
             j++; ///incremento el indice j para la proxima
             foundAux = (int*)realloc(found,sizeof(int)*j); ///incremento el espacio del array en 1 (intento hacerlo en un auxiliar)
             if(foundAux != NULL)
