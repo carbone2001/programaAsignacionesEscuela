@@ -521,3 +521,27 @@ void harcodearHermanos(LinkedList* this)
 
 }
 
+int hermano_ordenarString(eHermano* this1,eHermano* this2)
+{
+    int retorno;
+    retorno = strcmp(this1->apellido,this2->apellido);
+    retorno = retorno;
+}
+
+int hermano_ordenarId(eHermano* this1,eHermano* this2)
+{
+    int retorno;
+    if(this1->id == this2->id)
+    {
+        retorno = 0;
+    }
+    else if(this1->id > this2->id)
+    {
+        retorno = 1;
+    }
+    else
+    {
+        retorno = -1;
+    }
+    retorno = retorno;
+}

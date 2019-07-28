@@ -107,10 +107,13 @@ int controller_addHermano(LinkedList* pArrayList)
                     if(getIntIntentos(privilegio,"\nIngrese su privilegio. (1)anciano /(2) Siervo Ministerial / (3) Ninguno \nIngrese opcion: ","\nOPCION INCORRECTA!\n",1,3,1)==0)
                     {
                         nuevoHno = hermano_newParametros(&id,nombre,apellido,telefono,servMinist,privilegio,ultimaAsignacion,estado);
-                        printHermano(nuevoHno);
+
                         if(nuevoHno != NULL)
                         {
                             error = ll_add(pArrayList,nuevoHno);
+                            printHermano(nuevoHno);
+                            printf("\n");
+                            system("pause");
                         }
                     }
                 }
@@ -435,7 +438,7 @@ eConfiguracion* configuracion_newParam(int logo,char* userName,char* listaHerman
         strcpy(config->pathListaHermanos,listaHermanos);
         strcpy(config->pathListaAsignaciones,listaAsignaciones);
         config->primeraVez=primeraVez;
-        strcpy(config->temaConsola,"COLOR F0");
+        strcpy(config->temaConsola,"COLOR 0F");
     }
 
     return config;
@@ -1047,6 +1050,13 @@ eConfiguracion* cargarConfiguracion(char* path,int aplicar)
                     printf("\n  Perfecto!!  \n");
                     system("pause");
                     system("cls");
+                    printf("\n Bienvenido %s! Al parecer esta es la primera vez que el programa se inicia. Para empezar tedras que ver los siguientes puntos:",nombreUsuario);
+                    printf("\n Las fechas se escriben con numeros: 'marzo'(MAL) '3'(BIEN) ");
+                    printf("\n Jamas debe cerrar el programa con el signo 'X' que se encuentra en un costado de la ventana. Puede generar un error grave ");
+                    printf("\n A la hora de elegir una opcion: 's' significa 'SI' y 'n' significa 'NO'");
+                    printf("\n No intente trabar el programa porque lo puede conseguir y las consecuencias podrian ser catastroficas");
+                    printf("\n Puede mostrar el programa pero no difundirlo sin autorizacion, ok?\n");
+                    system("pause");
                     auxConfig = configuracion_newParam(1,nombreUsuario,"listaHermanos.bin","listaAsignaciones.bin",0);
                     if(auxConfig != NULL)
                     {
@@ -1305,6 +1315,10 @@ int controller_saveHermanosAsignaciones(LinkedList* listaHermanos,LinkedList* li
             error = 1;
             system("pause");
         }
+        else
+        {
+            error = 0;
+        }
 
     }
     else
@@ -1340,6 +1354,7 @@ int controller_configuracion(eConfiguracion* config)
 
     do
     {
+        system("cls");
         printf("\n *** Configuraciones ***");
         printf("\n 1. Modificar nombre de usuario");
         printf("\n 2. Modifcar destino del archivo de hermanos");
@@ -1403,17 +1418,22 @@ int controller_configuracion(eConfiguracion* config)
             {
                 config->arranqueLogo=0;
                 printf("\n Se ha deshabilitado el logo\n");
+                error=0;
                 system("pause");
             }
             else
             {
                 config->arranqueLogo=1;
                 printf("\n Se ha habilitado el logo\n");
+                error=0;
                 system("pause");
             }
             break;
+        case 6:
+            error=0;
+            break;
         }
-        system("cls");
+
     }
     while(opcion != 6);
     if(error)
@@ -1586,7 +1606,52 @@ int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList*
     return error;
 }
 
+int controller_imprimirHermanos(LinkedList* listaHermanos)
+{
+    int error = 1;
+    int (*pFunc)();
+    int opcion;
+    do
+    {
+        printf("\n *** Ver lista de hermanos ****");
+        printf("\n 1. Ordenar nombres");
+        printf("\n 2. Ordenar ID");
+        printf("\n 3. Salir");
+        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n",1,3,1);
+        switch(opcion)
+        {
+        case 1:
+            pFunc = hermano_ordenarString;
+            if(ll_sort(listaHermanos,pFunc,1)==0)
+            {
+                printf("\nLo hermanos han sido ordenados correctamente\n");
+                printHermanos(listaHermanos);
+                system("pause");
+                system("cls");
+            }
+            break;
+        case 2:
+            pFunc = hermano_ordenarId;
+            if(ll_sort(listaHermanos,pFunc,1)==0)
+            {
+                printf("\nLo hermanos han sido ordenados correctamente\n");
+                printHermanos(listaHermanos);
+                system("pause");
+                system("cls");
 
+            }
+            break;
+        case 3:
+            system("cls");
+            break;
+        }
+    }
+    while(opcion!=3);
+
+
+    return error;
+
+}
 
 int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config)
 {
@@ -1614,6 +1679,7 @@ int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignacion
                 }
                 break;
             case 2:
+                controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config);
                 controller_saveHermanosAsignacionesCSV(listaHermanos,listaAsignaciones);
 
                 break;

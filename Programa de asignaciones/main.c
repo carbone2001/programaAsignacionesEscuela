@@ -15,7 +15,6 @@ int main()
 
     char *option;
     option = (char*) malloc (sizeof(char));
-    char respuesta;
     LinkedList* listaHermanos = ll_newLinkedList();
     LinkedList* listaAsignaciones = ll_newLinkedList();
     eConfiguracion* config = (eConfiguracion*)malloc(sizeof(eConfiguracion));
@@ -71,9 +70,8 @@ int main()
                     controller_searchHermano(listaHermanos);
                     break;
                 case 5:
-                    printHermanos(listaHermanos);
-                    system("pause");
-                    system("cls");
+                    controller_imprimirHermanos(listaHermanos);
+
                     break;
                 case 6:
                     printAsignaciones(listaAsignaciones);
