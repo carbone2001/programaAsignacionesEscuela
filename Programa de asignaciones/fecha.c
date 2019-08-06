@@ -83,3 +83,80 @@ void printFecha(eFecha* fecha)
     printf("%02d/",fecha->mes);
     printf("%04d",fecha->anio);
 }
+
+int fecha_searchFecha(eFecha* element1,eFecha* element2)
+{
+    int retorno = -1;
+    if(element1->anio == element2->anio)
+    {
+        if(element1->mes == element2->mes)
+        {
+            if(element1->dia == element2->dia)
+            {
+                retorno = 0;
+            }
+            else if(element1->dia > element2->dia)
+            {
+                retorno = 1;
+            }
+        }
+        else if(element1->mes > element2->mes)
+        {
+            retorno = 1;
+        }
+    }
+    else if(element1->anio > element2->anio)
+    {
+        retorno = 1;
+    }
+
+    return retorno;
+
+}
+
+char* getMonthSpanish(int numberMounth)
+{
+    char* nombreMes = (char*)malloc(sizeof(char)*20);
+    switch(numberMounth)
+    {
+    case 1:
+        strcpy(nombreMes,"Enero ");
+        break;
+    case 2:
+        strcpy(nombreMes,"Febrero ");
+        break;
+    case 3:
+        strcpy(nombreMes,"Marzo ");
+        break;
+    case 4:
+        strcpy(nombreMes,"Abril ");
+        break;
+    case 5:
+        strcpy(nombreMes,"Mayo ");
+        break;
+    case 6:
+        strcpy(nombreMes,"Junio ");
+        break;
+    case 7:
+        strcpy(nombreMes,"Julio ");
+        break;
+    case 8:
+        strcpy(nombreMes,"Agosto ");
+        break;
+    case 9:
+        strcpy(nombreMes,"Septiembre ");
+        break;
+    case 10:
+        strcpy(nombreMes,"Octubre ");
+        break;
+    case 11:
+        strcpy(nombreMes,"Noviembre ");
+        break;
+    case 12:
+        strcpy(nombreMes,"Diciembre ");
+        break;
+    }
+
+    return nombreMes;
+
+}

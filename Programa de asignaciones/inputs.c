@@ -21,7 +21,7 @@ int getIntIntentos(int* input,char* msj,char* eMsj,int minimo,int maximo,int rei
     {
         if(reintentos)
         {
-            for(i=0; i<reintentos; i++)
+            for(i=1; i<reintentos; i++)
             {
                 printf("%s",eMsj);
                 scanf("%s",numStr);

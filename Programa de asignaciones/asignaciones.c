@@ -1,5 +1,6 @@
 #include "asignaciones.h"
 #include "LinkedList.h"
+#include "hermanos.h"
 #include "fecha.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -47,25 +48,34 @@ eAsignacion* asignacion_newParametros(int* idHermano,int* asignacion,char* sala,
     return new;
 }
 
-void printAsignacion(eAsignacion* elemento)
+void printAsignacion(eAsignacion* elemento,LinkedList* listaHermanos)
 {
     eFecha* fecha;
-    printf("\n\t%d\t\t  %c\t     ",elemento->idHermano,elemento->sala);
+    eHermano* hno = (eHermano*)malloc(sizeof(eHermano));
+    hno=hermano_searchGetById(&(elemento->idHermano),listaHermanos);
+
+
+
+    printf("\n %15s %15s          %d  \t\t %1c     ",hno->apellido,hno->nombre,elemento->idHermano,elemento->sala);
+
     switch(elemento->asignacion)
     {
     case 1:
-        printf("%20s\t ","Primera visita");
+        printf("%20s\t ","Lectura Biblica");
         break;
     case 2:
-        printf("%20s\t ","Revisita");
+        printf("%20s\t ","Primera Conversacion");
         break;
     case 3:
-        printf("%20s\t ","Curso biblico");
+        printf("%20s\t ","Primera Revisita");
         break;
     case 4:
-        printf("%20s\t ","Lectura biblica");
+        printf("%20s\t ","Segunda Conversacion");
         break;
     case 5:
+        printf("%20s\t ","Curso Biblico");
+        break;
+    case 6:
         printf("%20s\t ","Discurso biblico");
         break;
     default:
@@ -76,14 +86,14 @@ void printAsignacion(eAsignacion* elemento)
     printFecha(fecha);
 }
 
-void printAsignaciones(LinkedList* this)
+void printAsignaciones(LinkedList* this,LinkedList* listaHermanos)
 {
-    printf("   ID del hermano       Sala                   Asignacion             Fecha\n");
+    printf("        Apellido          Nombre    ID del hermano     Sala              Asignacion           Fecha");
     if(ll_len(this)!=0)
     {
         for(int i=0; i<ll_len(this); i++)
         {
-            printAsignacion(ll_get(this,i));
+            printAsignacion(ll_get(this,i),listaHermanos);
         }
     }
     else
@@ -95,6 +105,30 @@ void printAsignaciones(LinkedList* this)
     printf("\n\n");
 }
 
+
+void printAsignacionesConHermanos(LinkedList* this,LinkedList* listaHermanos)
+{
+    printf("Nombre del Hermano   ID del hermano       Sala                   Asignacion             Fecha\n");
+    eHermano* hno;
+    eAsignacion* asig;
+    if(ll_len(this)!=0 && ll_len(listaHermanos)!= 0)
+    {
+        for(int i=0; i<ll_len(this); i++)
+        {
+            asig = ll_get(this,i);
+            hno = hermano_searchGetById(&(asig->idHermano),listaHermanos);
+            printf("%20s %20s ",hno->apellido,hno->nombre);
+            printAsignacion(ll_get(this,i),listaHermanos);
+        }
+    }
+    else
+    {
+        printf("\nNo ha resultados.");
+    }
+
+
+    printf("\n\n");
+}
 
 int asignacion_searchId(eAsignacion* element1, eAsignacion* element2)
 {
@@ -174,51 +208,80 @@ void harcodearAsignaciones(LinkedList* this)
 
 }
 
-
 eAsignacion* asignacion_searchByIdData(int* id,eFecha* fecha,LinkedList* this)
 {
-    int len;
-    int error=0;
     int (*pFunc)();
-    int* indices;
-    LinkedList* listaIdAsig = ll_newLinkedList();
-    eAsignacion* asig = (eAsignacion*)malloc(sizeof(eAsignacion));
+    LinkedList* listaIdFechaAsig = ll_newLinkedList(); ///Almacenara los elementos que se retornaran
+    LinkedList* listaIdAsig = ll_newLinkedList(); ///Almacena las asignaciones que coinciden con el ID
+    eAsignacion* asig = (eAsignacion*)malloc(sizeof(eAsignacion)); ///Almacena una unica asignacion que coincide con el ID y la fecha
     asig->fecha = *fecha;
     asig->idHermano = *id;
 
-    pFunc = asignacion_searchId;
-    indices = ll_search(this,asig,pFunc,&len);
-    if(len == 0)
+    pFunc = asignacion_searchId; ///Funcion que compara ID
+    listaIdAsig = ll_search(this,asig,pFunc); ///Busca todas las asignaciones que coinciden con el ID
+
+    if(ll_len(listaIdAsig) == 0)
     {
         asig = NULL;
     }
     else
     {
-        for(int i=0; i<len; i++)
+        pFunc = asignacion_searchFecha; ///Funcion que compara fechas
+        listaIdFechaAsig = ll_search(listaIdAsig,asig,pFunc); ///De la lista de asignaciones que coinciden con el ID busca cual coincide con la fecha
+
+        if(ll_len(listaIdFechaAsig) == 0)
         {
-            if(ll_add(listaIdAsig,ll_get(this,indices[i])))
-            {
-                printf("\n\n ERROR EN asignacion_searchByIdData\n\n");
-                system("pause");
-                error = 0;
-            }
+            asig = NULL;
         }
-        if(error == 0)
+        else
         {
-            pFunc = asignacion_searchFecha;
-            indices = ll_search(listaIdAsig,asig,pFunc,&len);
-            if(len == 0)
-            {
-                asig = NULL;
-            }
-            else
-            {
-                asig = ll_get(listaIdAsig,indices[0]);
-            }
+            asig = ll_get(listaIdFechaAsig,0); ///Da el primer elemento que coincida con ID y Fecha. Ya que no pueden haber dos iguales.
         }
+
 
     }
     return asig;
+}
 
+int asignacion_sortByData(eAsignacion* this, eAsignacion* this2)
+{
+    int retorno = -1;
+    if(this->fecha.anio == this2->fecha.anio)
+    {
+        if(this->fecha.mes == this2->fecha.mes)
+        {
+            if(this->fecha.dia == this2->fecha.dia)
+            {
+                retorno = 0;
+            }
+            else if(this->fecha.dia > this2->fecha.dia)
+            {
+                retorno = 1;
+            }
+        }
+        else if(this->fecha.mes > this2->fecha.mes)
+        {
+            retorno = 1;
+        }
+    }
+    else if(this->fecha.anio > this2->fecha.anio)
+    {
+        retorno = 1;
+    }
 
+    return retorno;
+}
+
+int asignacion_sortAsignacion(eAsignacion* element1, eAsignacion* element2)
+{
+    int r = 0;
+    if(element1->asignacion > element2->asignacion)
+    {
+        r = 1;
+    }
+    else if(element1->asignacion < element2->asignacion)
+    {
+        r=-1;
+    }
+    return r;
 }

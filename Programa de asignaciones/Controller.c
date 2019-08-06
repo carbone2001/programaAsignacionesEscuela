@@ -92,35 +92,45 @@ int controller_addHermano(LinkedList* pArrayList)
     system("cls");
 
     printf("\n *** AGREGAR HERMANO ***");
-    if(getString(nombre,"\nIngrese el nombre del hermano: ","El nombre no debe superar los 30 caracteres",30)==0 )
+    if( tolower((getChar("\n Desea agregar una nuevo hermano? (s/n): "))=='s'))
     {
-        strlwr(nombre);
-        nombre[0] = toupper(nombre[0]);
-        if(getString(apellido,"\nIngrese el apellido del hermano: ","El apellido no debe superar los 30 caracteres",30)==0)
+        if(getString(nombre,"\nIngrese el nombre del hermano: ","El nombre no debe superar los 30 caracteres",30)==0 )
         {
-            strlwr(apellido);
-            apellido[0] = toupper(apellido[0]);
-            if(getString(telefono,"\nIngrese el telefono del hermano: ","El telefono no debe superar los 20 caracteres",20)==0)
+            strlwr(nombre);
+            nombre[0] = toupper(nombre[0]);
+            if(getString(apellido,"\nIngrese el apellido del hermano: ","El apellido no debe superar los 30 caracteres",30)==0)
             {
-                if(getIntIntentos(servMinist,"\nIngrese su servicio de ministerio. (1)publicador /(2) P. Auxiliar /(3) P. Regular /(4) P. Especial \nIngrese opcion: ","\nOPCION INCORRECTA!\n",1,4,1)==0)
+                strlwr(apellido);
+                apellido[0] = toupper(apellido[0]);
+                if(getString(telefono,"\nIngrese el telefono del hermano: ","El telefono no debe superar los 20 caracteres",20)==0)
                 {
-                    if(getIntIntentos(privilegio,"\nIngrese su privilegio. (1)anciano /(2) Siervo Ministerial / (3) Ninguno \nIngrese opcion: ","\nOPCION INCORRECTA!\n",1,3,1)==0)
+                    if(getIntIntentos(servMinist,"\nIngrese su servicio de ministerio. (1)publicador /(2) P. Auxiliar /(3) P. Regular /(4) P. Especial \nIngrese opcion: ","\nOPCION INCORRECTA!\n",1,4,1)==0)
                     {
-                        nuevoHno = hermano_newParametros(&id,nombre,apellido,telefono,servMinist,privilegio,ultimaAsignacion,estado);
-
-                        if(nuevoHno != NULL)
+                        if(getIntIntentos(privilegio,"\nIngrese su privilegio. (1)anciano /(2) Siervo Ministerial / (3) Ninguno \nIngrese opcion: ","\nOPCION INCORRECTA!\n",1,3,1)==0)
                         {
-                            error = ll_add(pArrayList,nuevoHno);
-                            printHermano(nuevoHno);
-                            printf("\n");
-                            system("pause");
+                            nuevoHno = hermano_newParametros(&id,nombre,apellido,telefono,servMinist,privilegio,ultimaAsignacion,estado);
+
+                            if(nuevoHno != NULL)
+                            {
+                                error = ll_add(pArrayList,nuevoHno);
+                                printf("   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado\n");
+                                printHermano(nuevoHno);
+                                printf("\n");
+
+                            }
                         }
                     }
                 }
             }
         }
     }
-    system("cls");
+    else
+    {
+        error=0;
+    }
+
+
+
     if(error)
     {
         printf("\nHubo un error al agregar el hermano\n");
@@ -131,6 +141,7 @@ int controller_addHermano(LinkedList* pArrayList)
         printf("\nEl hermano ha sido agregado exitosamente\n");
         system("pause");
     }
+    system("cls");
 
     return error;
 }
@@ -162,33 +173,41 @@ int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHerm
             id = (int*) malloc (sizeof(int));
             if(getInt(id,"\nIngrese ID del hermano: ","\nEl ID ingresado es invalido",1,999) == 0 && (hno = hermano_searchGetById(id,listaHermanos))!=NULL && hno->estado != 0)
             {
-
-                sala = (char*) malloc (sizeof(char));
-                *sala = getChar("\nIngrese la sala (A/B): ");
-                *sala = toupper(*sala);
-                if(*sala == 'A' || *sala == 'B' || *sala == 'a' || *sala == 'b')
+                printf("\n   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado\n");
+                printHermano(hno);
+                if( tolower((getChar("\n Es este el hermano? (s/n): "))=='s'))
                 {
-                    asignacion = (int*) malloc (sizeof(int));
-                    if(getInt(asignacion,"\nIngrese numero de asignacion (1. Primera Conversarion / 2. Revisita / 3. Estudio Biblico / 4. Lectura de la Biblia / 5. Discurso biblico)\n Ingrese opcion: ","\nOpcion Invalida!",0,5) == 0)
+                    sala = (char*) malloc (sizeof(char));
+                    *sala = getChar("\nIngrese la sala (A/B): ");
+                    *sala = toupper(*sala);
+                    if(*sala == 'A' || *sala == 'B' || *sala == 'a' || *sala == 'b')
                     {
-                        printf("\nIngrese fecha de asignacion:");
-                        fecha = (eFecha*) malloc(sizeof(eFecha));
-                        if((fecha=pedirFecha())!=NULL)
+                        asignacion = (int*) malloc (sizeof(int));
+                        if(getInt(asignacion,"\nIngrese numero de asignacion \n 1. Lectura \n 2. Primera Conversacion\n 3. Primera Revisita \n 4. Segunda Revisita \n 5. Curso Biblico \n 6. Discurso biblico\n\n Ingrese opcion: ","\nOpcion Invalida!",0,6) == 0)
                         {
-                            new = asignacion_newParametros(id,asignacion,sala,fecha);
-                            if(new != NULL)
+                            printf("\nIngrese fecha de asignacion:");
+                            fecha = (eFecha*) malloc(sizeof(eFecha));
+                            if((fecha=pedirFecha())!=NULL)
                             {
-
-                                error = ll_add(listaAsignaciones,new);
-
+                                new = asignacion_newParametros(id,asignacion,sala,fecha);
+                                if(new != NULL)
+                                {
+                                    error = ll_add(listaAsignaciones,new);
+                                }
                             }
                         }
                     }
                 }
+                else
+                {
+                    printf("\n Se ha cancelado la creacion de nueva asignacion\n");
+                    system("pause");
+                    error = 2;
+                }
             }
             else
             {
-                printf("\nNo se ha encontrado el hermano del ID %d\n",*id);
+                printf("\nNo se ha encontrado el hermano del ID: %d. Puede que el ID sea incorrecto o que el hermano este deshabilitado\n",*id);
             }
         }
         else
@@ -208,8 +227,9 @@ int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHerm
     {
         printf("\n Se ha creado la asignacion exitosamente!\n");
         setUltAsig(hno,new);
-        printf("   ID del hermano       Sala            Asignacion                  Fecha\n");
-        printAsignacion(new);
+        printf("        Apellido          Nombre    ID del hermano     Sala              Asignacion           Fecha\n");
+        printAsignacion(new,listaHermanos);
+        printf("\n");
         system("pause");
     }
 
@@ -444,15 +464,14 @@ eConfiguracion* configuracion_newParam(int logo,char* userName,char* listaHerman
     return config;
 }
 
+///COPIA
 int controller_searchHermano(LinkedList* this)
 {
     int error = 1;
-    int len;
     eHermano* hno = (eHermano*)malloc(sizeof(eHermano));
+    LinkedList* listaHermanos;
     char* string;
     int* num;
-    int* indices = (int*) malloc (sizeof(int));
-    int indice;
     int (*pFunc)();
     int opcion=0;
 
@@ -468,7 +487,7 @@ int controller_searchHermano(LinkedList* this)
         printf("\n5. Buscar por ID");
         printf("\n6. Volver al menu\n");
         getInt(&opcion,"\nIngrese opcion: ","\nOpcion de invalida!\n",1,6);
-        len=-1;
+
         switch(opcion)
         {
         case 1:
@@ -479,7 +498,7 @@ int controller_searchHermano(LinkedList* this)
                 string[0] = toupper(string[0]);
                 strcpy(hno->nombre,string);
                 pFunc = hermano_searchName;
-                indices = ll_search(this,hno,pFunc,&len);
+                listaHermanos = ll_search(this,hno,pFunc);
             }
             break;
         case 2:
@@ -490,7 +509,7 @@ int controller_searchHermano(LinkedList* this)
                 string[0] = toupper(string[0]);
                 strcpy(hno->apellido,string);
                 pFunc = hermano_searchSurname;
-                indices = ll_search(this,hno,pFunc,&len);
+                listaHermanos = ll_search(this,hno,pFunc);
             }
             break;
         case 3:
@@ -499,7 +518,7 @@ int controller_searchHermano(LinkedList* this)
             {
                 hno->privilegio=*num;
                 pFunc = hermano_searchPrivilegio;
-                indices = ll_search(this,hno,pFunc,&len);
+                listaHermanos = ll_search(this,hno,pFunc);
             }
             break;
         case 4:
@@ -508,7 +527,7 @@ int controller_searchHermano(LinkedList* this)
             {
                 hno->servMinist=*num;
                 pFunc = hermano_searchServicio;
-                indices = ll_search(this,hno,pFunc,&len);
+                listaHermanos = ll_search(this,hno,pFunc);
             }
             break;
         case 5:
@@ -517,7 +536,7 @@ int controller_searchHermano(LinkedList* this)
             {
                 hno->id=*num;
                 pFunc = hermano_searchId;
-                indices = ll_search(this,hno,pFunc,&len);
+                listaHermanos = ll_search(this,hno,pFunc);
             }
             break;
 
@@ -525,45 +544,34 @@ int controller_searchHermano(LinkedList* this)
             system("cls");
             break;
         }
-        if(len==0)
+        if(ll_len(listaHermanos)==0 && opcion != 6)
         {
             printf("\nNo se ha encontrado resultados para: '%s'\n",string);
             system("pause");
-            free(string);
-            free(num);
         }
-        else if(len != 0 && len != -1 && indices!=NULL)
+        else if(ll_len(listaHermanos) != 0 && ll_len(listaHermanos) != -1 && listaHermanos!=NULL && opcion!=6)
         {
-            printf("   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado\n");
-            for(int i=0; i<len; i++)
-            {
-                indice = indices[i];
-                printHermano(ll_get(this,indice));
-
-            }
+            printHermanos(listaHermanos);
             printf("\n");
-            free(string);
-            free(num);
             system("pause");
         }
     }
-    free(indices);
-    free(hno);
 
     return error;
 }
 
+///COPIA
+
 int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* listaHermanos)
 {
     int error = 1;
-    int len;
+    LinkedList* elements;
     eAsignacion* asig = (eAsignacion*) malloc (sizeof(eAsignacion));
     eHermano* hno = (eHermano*)malloc(sizeof(eHermano));
     char* letra;
     int* num;
     eFecha* fecha;
-    int* indices;// = (int*) malloc (sizeof(int));
-    int indice;
+
     int (*pFunc)();
     int opcion=0;
 
@@ -578,7 +586,7 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
         printf("\n4. Buscar por numero de asignacion");
         printf("\n5. Volver al menu\n");
         getInt(&opcion,"\nIngrese opcion: ","\nOpcion de invalida!\n",1,5);
-        len=-1;
+
         switch(opcion)
         {
         case 1:
@@ -587,7 +595,7 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
             {
                 asig->idHermano=*num;
                 pFunc = asignacion_searchId;
-                indices = ll_search(listaAsignaciones,asig,pFunc,&len);
+                elements = ll_search(listaAsignaciones,asig,pFunc);
             }
             hno = hermano_searchGetById(num,listaHermanos);
             if(hno != NULL)
@@ -603,7 +611,7 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
             {
                 asig->fecha=*fecha;
                 pFunc = asignacion_searchFecha;
-                indices = ll_search(listaAsignaciones,asig,pFunc,&len);
+                elements = ll_search(listaAsignaciones,asig,pFunc);
             }
 
 
@@ -620,8 +628,8 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
                 printf("\nLa letra ingresada: %c \n",*letra);
                 asig->sala=*letra;
                 pFunc = asignacion_searchSala;
-                indices = ll_search(listaAsignaciones,asig,pFunc,&len);
-                printf("\nLen = %d, indices[0]=%d \n",len,*indices);
+                elements = ll_search(listaAsignaciones,asig,pFunc);
+
             }
             else
             {
@@ -632,16 +640,17 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
             break;
         case 4:
             num = (int*) malloc (sizeof(int));
-            if((getIntIntentos(num,"\nIngrese numero de asignacion (1. Primera Conversarion / 2. Revisita / 3. Estudio Biblico / 4. Lectura de la Biblia / 5. Discurso biblico)\n Ingrese opcion: ","\nAsignacion invalida!\n",1,5,1)==0))
+            if((getIntIntentos(num,"\nIngrese numero de asignacion \n 1. Lectura \n 2. Primera Conversacion\n 3. Primera Revisita \n 4. Segunda Revisita \n 5. Curso Biblico \n 6. Discurso biblico\n\n Ingrese opcion: ","\nAsignacion invalida!\n",1,5,1)==0))
             {
                 asig->asignacion=*num;
                 pFunc = asignacion_searchAsignacion;
-                indices = ll_search(listaAsignaciones,asig,pFunc,&len);
+                elements = ll_search(listaAsignaciones,asig,pFunc);
             }
 
             break;
         case 5:
             error=0;
+            free(asig);
             system("cls");
             break;
         default:
@@ -649,7 +658,7 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
             break;
 
         }
-        if(len==0)
+        if(ll_len(elements)==0 && opcion!=5)
         {
             printf("\nNo se ha encontrado resultados\n");
             free(num);
@@ -658,15 +667,10 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
 
 
         }
-        else if(len != 0 && len != -1 && indices!=NULL)
+        else if(ll_len(elements) != 0 && ll_len(elements) != -1 && elements!=NULL && opcion!=5)
         {
 
-            printf("   ID del hermano       Sala                   Asignacion             Fecha\n");
-            for(int i=0; i<len; i++)
-            {
-                indice = indices[i];
-                printAsignacion(ll_get(listaAsignaciones,indice));
-            }
+            printAsignaciones(elements,listaHermanos);
             printf("\n");
             free(num);
             system("pause");
@@ -676,21 +680,21 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
 
     }
 
-    free(asig);
-    free(indices);
-    return error;
 
+
+    return error;
 }
 
 int controller_editHermanos(LinkedList* this)
 {
     int opcion;
+    int error = 1;
     int subOpcion;
     int id;
     eHermano* hno;
     char* string;
     int* num;
-    int indice;
+    int indice; ///NO BORRAR. ESE INDICE SIRVE
     char confirmacion;
 
 
@@ -722,6 +726,7 @@ int controller_editHermanos(LinkedList* this)
                     if(ll_remove(this,indice)==0)
                     {
                         printf("\nLa eliminacion se ha realizado con exito!\n");
+                        error=0;
                         system("pause");
                     }
                     else
@@ -744,10 +749,11 @@ int controller_editHermanos(LinkedList* this)
                 scanf("%c",&confirmacion);
                 if(confirmacion == 's')
                 {
-                    indice = ll_indexOf(this,hno);
+
                     if(setEstado(hno,0)==0)
                     {
                         printf("\nEl hermano ha sido deshabilitado!\n");
+                        error=0;
                         system("pause");
                     }
                     else
@@ -769,10 +775,11 @@ int controller_editHermanos(LinkedList* this)
                 scanf("%c",&confirmacion);
                 if(confirmacion == 's')
                 {
-                    indice = ll_indexOf(this,hno);
+
                     if(setEstado(hno,0)==0)
                     {
                         printf("\nEl hermano ha sido habilitado!\n");
+                        error=0;
                         system("pause");
                     }
                     else
@@ -787,19 +794,27 @@ int controller_editHermanos(LinkedList* this)
 
             if(getIntIntentos(&id,"\n\nIngrese ID del hermano: ","\nID Invalido",1,999,1)==0)
             {
-                printf("\nQue quiere modificar al siguiente hermano? (s/n)");
+                printf("\n Que quiere modificar al siguiente hermano? (s/n)");
                 hno = hermano_searchGetById(&id,this);
+                printf("\n   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado");
                 printHermano(hno);
                 fflush(stdin);
-                printf("\nIngrese opcion: ");
+                printf("\n\n Ingrese opcion: ");
                 scanf("%c",&confirmacion);
                 if(confirmacion == 's')
                 {
-                    indice = ll_indexOf(this,hno);
+
                     do
                     {
                         system("cls");
-                        printf("\nQue desea modificar?\n");
+                        if(hno != NULL)
+                        {
+                            printf("\n************************************************************************************************************************************************\n**");
+                            printf(" ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado  **");
+                            printHermano(hno);
+                            printf("  **\n************************************************************************************************************************************************\n");
+                        }
+                        printf("\n Que desea modificar?\n");
                         printf("\n 1. Nombre");
                         printf("\n 2. Apellido");
                         printf("\n 3. Privilegio");
@@ -814,9 +829,12 @@ int controller_editHermanos(LinkedList* this)
                             string = (char*)malloc(sizeof(char));
                             if(getString(string,"\nIngrese nombre: ","\nEl nombre no debe superar los 30 caracteres",30)==0)
                             {
+                                strlwr(string);
+                                *string = toupper(*string);
                                 if(setNombre(hno,string)==0)
                                 {
                                     printf("\nSe ha modificado el nombre con exito!\n");
+                                    error=0;
                                     system("pause");
                                 }
                                 else
@@ -830,9 +848,13 @@ int controller_editHermanos(LinkedList* this)
                             string = (char*)malloc(sizeof(char));
                             if(getString(string,"\nIngrese apellido: ","\nEl apellido no debe superar los 30 caracteres",30)==0)
                             {
+                                strlwr(string);
+                                *string = toupper(*string);
+
                                 if(setApellido(hno,string)==0)
                                 {
                                     printf("\nSe ha modificado el apellido con exito!\n");
+                                    error=0;
                                     system("pause");
                                 }
                                 else
@@ -849,6 +871,7 @@ int controller_editHermanos(LinkedList* this)
                                 if(setPrivilegio(hno,*num)==0)
                                 {
                                     printf("\nSe ha modificado los privilegios del hermano.\n");
+                                    error=0;
                                     system("pause");
                                 }
                                 else
@@ -866,6 +889,7 @@ int controller_editHermanos(LinkedList* this)
                                 if(setServMinist(hno,*num)==0)
                                 {
                                     printf("\nSe ha modificado el Servicio de Ministerio del hermano.\n");
+                                    error=0;
                                     system("pause");
                                 }
                                 else
@@ -882,6 +906,7 @@ int controller_editHermanos(LinkedList* this)
                                 if(setTelefono(hno,string)==0)
                                 {
                                     printf("\nSe ha modificado el numero de telefono con exito!\n");
+                                    error=0;
                                     system("pause");
                                 }
                                 else
@@ -893,7 +918,7 @@ int controller_editHermanos(LinkedList* this)
 
                             break;
                         case 6:
-                            system("pause");
+                            error=0;
                             break;
                         }
 
@@ -903,7 +928,10 @@ int controller_editHermanos(LinkedList* this)
             }
             break;
         case 5:
-            system("pause");
+            error=0;
+            free(num);
+            free(string);
+            system("cls");
             break;
         default:
             system("cls");
@@ -912,10 +940,9 @@ int controller_editHermanos(LinkedList* this)
 
     }
     while(opcion != 5);
-    free(num);
-    free(string);
 
-    return 0; ///retorna error
+
+    return error; ///retorna error
 
 }
 
@@ -934,11 +961,12 @@ int controller_editAsignaciones(LinkedList* this, LinkedList* this2)
     if(getIntIntentos(&id,"\nIngrese el ID del hermano: ","\nID invalido!",1,999,1)==0)
     {
         hno = hermano_searchGetById(&id,this2);
-        printf("   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado\n");
-        printHermano(hno);
-        printf("\n\n");
+
         if(hno != NULL)
         {
+            printf("\n   ID          Nombre        Apellido             Telefono      Serv. Minist           Privilegio      Ultima Asignacion              Estado");
+            printHermano(hno);
+            printf("\n\n");
             printf("\nIngrese la semana de la asignacion:\n");
             fecha = pedirFecha();
             if(fecha != NULL)
@@ -949,57 +977,72 @@ int controller_editAsignaciones(LinkedList* this, LinkedList* this2)
                     do
                     {
                         system("cls");
-                        printf("\n Que desea modificar?");
-                        printf("\n 1. Modificar sala");
-                        printf("\n 2. Modificar Asignacion");
-                        printf("\n 3. Modificar fecha");
-                        printf("\n 4. Eliminar asignacion");
-                        printf("\n 5. Volver antras\n");
-                        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida\n",1,5,1);
-                        switch(opcion)
+                        asig = asignacion_searchByIdData(&id,fecha,this);
+                        if(asig!=NULL)
                         {
-                        case 1:
-                            sala = (char*) malloc (sizeof(char));
-                            *sala = getChar("\nIngrese la sala (A/B): ");
-                            *sala = toupper(*sala);
-                            if(*sala == 'A' || *sala == 'B' || *sala == 'a' || *sala == 'b')
+                            printf("\n***************************************************************************************************\n");
+                            printf("        Apellido          Nombre    ID del hermano     Sala              Asignacion           Fecha\n");
+                            printAsignacion(asig,this2);
+                            printf("\n***************************************************************************************************\n");
+
+                            printf("\n Que desea modificar?");
+                            printf("\n 1. Modificar sala");
+                            printf("\n 2. Modificar Asignacion");
+                            printf("\n 3. Modificar fecha");
+                            printf("\n 4. Eliminar asignacion");
+                            printf("\n 5. Volver antras\n");
+                            getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida\n",1,5,1);
+                            switch(opcion)
                             {
-                                asig->sala = *sala;
-                                error = 0;
-                            }
-                            break;
-                        case 2:
-                            asignacion = (int*)malloc(sizeof(int));
-                            if(getIntIntentos(asignacion,"\nIngrese numero de asignacion (1. Primera Conversarion / 2. Revisita / 3. Estudio Biblico / 4. Lectura de la Biblia / 5. Discurso biblico)\n Ingrese opcion: ","\nOpcion Invalida!",0,5,1) == 0)
-                            {
-                                asig->asignacion = *asignacion;
-                                error = 0;
-                            }
-                            break;
-                        case 3:
-                            printf("\nIngrese fecha: \n");
-                            fecha = pedirFecha();
-                            if(fecha != NULL)
-                            {
-                                asig->fecha = *fecha;
-                                error = 0;
-                            }
-                            break;
-                        case 4:
-                            if((indice = ll_indexOf(this,asig)) != -1)
-                            {
-                                if(ll_remove(this,indice)!=0)
+                            case 1:
+                                sala = (char*) malloc (sizeof(char));
+                                *sala = getChar("\nIngrese la sala (A/B): ");
+                                *sala = toupper(*sala);
+                                if(*sala == 'A' || *sala == 'B' || *sala == 'a' || *sala == 'b')
                                 {
-                                    printf("\nNo se pudo eliminar al hermano\n");
-                                    system("pause");
+                                    asig->sala = *sala;
+                                    error = 0;
                                 }
-                                error = 0;
+                                break;
+                            case 2:
+                                asignacion = (int*)malloc(sizeof(int));
+                                if(getIntIntentos(asignacion,"\nIngrese numero de asignacion \n 1. Lectura \n 2. Primera Conversacion\n 3. Primera Revisita \n 4. Segunda Revisita \n 5. Curso Biblico \n 6. Discurso biblico\n\n Ingrese opcion: ","\nOpcion Invalida!",0,6,1) == 0)
+                                {
+                                    asig->asignacion = *asignacion;
+                                    error = 0;
+                                }
+                                break;
+                            case 3:
+                                printf("\nIngrese fecha: \n");
+                                fecha = pedirFecha();
+                                if(fecha != NULL)
+                                {
+                                    asig->fecha = *fecha;
+                                    error = 0;
+                                }
+                                break;
+                            case 4:
+                                if((indice = ll_indexOf(this,asig)) != -1)
+                                {
+                                    if(ll_remove(this,indice)!=0)
+                                    {
+                                        printf("\nNo se pudo eliminar al hermano\n");
+                                        system("pause");
+                                    }
+                                    error = 0;
+                                }
+                                break;
+                            default:
+                                error=0;
+                                system("cls");
+                                break;
                             }
-                            break;
-                        default:
-                            error = 0;
-                            system("cls");
-                            break;
+                        }
+                        else
+                        {
+                            printf("\n *La asignacion ha sido eliminada* \n");
+                            system("pause");
+                            opcion=5;
                         }
 
                     }
@@ -1050,12 +1093,12 @@ eConfiguracion* cargarConfiguracion(char* path,int aplicar)
                     printf("\n  Perfecto!!  \n");
                     system("pause");
                     system("cls");
-                    printf("\n Bienvenido %s! Al parecer esta es la primera vez que el programa se inicia. Para empezar tedras que ver los siguientes puntos:",nombreUsuario);
-                    printf("\n Las fechas se escriben con numeros: 'marzo'(MAL) '3'(BIEN) ");
-                    printf("\n Jamas debe cerrar el programa con el signo 'X' que se encuentra en un costado de la ventana. Puede generar un error grave ");
-                    printf("\n A la hora de elegir una opcion: 's' significa 'SI' y 'n' significa 'NO'");
-                    printf("\n No intente trabar el programa porque lo puede conseguir y las consecuencias podrian ser catastroficas");
-                    printf("\n Puede mostrar el programa pero no difundirlo sin autorizacion, ok?\n");
+                    printf("\n Bienvenido %s! Al parecer esta es la primera vez que el programa se inicia. Para empezar tedras que ver los siguientes puntos:\n",nombreUsuario);
+                    printf("\n *Las fechas se escriben con numeros: 'marzo'(MAL) '3'(BIEN) ");
+                    printf("\n *Jamas debe cerrar el programa con el signo 'X' que se encuentra en un costado de la ventana. Puede generar un error grave ");
+                    printf("\n *A la hora de elegir una opcion: 's' significa 'SI' y 'n' significa 'NO'");
+                    printf("\n *No intente trabar el programa porque lo puede conseguir y las consecuencias podrian ser catastroficas");
+                    printf("\n *Puede mostrar el programa pero no difundirlo sin autorizacion, ok?\n");
                     system("pause");
                     auxConfig = configuracion_newParam(1,nombreUsuario,"listaHermanos.bin","listaAsignaciones.bin",0);
                     if(auxConfig != NULL)
@@ -1332,7 +1375,7 @@ int controller_saveHermanosAsignaciones(LinkedList* listaHermanos,LinkedList* li
 
     if(error == 0)
     {
-        printf("\n Se han guardado los cambios realizados\n");
+        printf("\n Se han guardado los cambios realizados del sistema\n");
         system("pause");
     }
     else
@@ -1360,9 +1403,11 @@ int controller_configuracion(eConfiguracion* config)
         printf("\n 2. Modifcar destino del archivo de hermanos");
         printf("\n 3. Modificar destino del archivo de asignaciones");
         printf("\n 4. Cambiar a color de consola");
-        printf("\n 5. Desactivar logo");
-        printf("\n 6. Volver al menu");
-        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n",1,6,1);
+        printf("\n 5. Activar/Desactivar logo");
+        printf("\n 6. About");
+        printf("\n 7. Volver al menu");
+        opcion = 0;
+        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n",1,7,1);
         switch(opcion)
         {
         case 1:
@@ -1382,7 +1427,7 @@ int controller_configuracion(eConfiguracion* config)
             break;
         case 2:
             string = (char*)malloc(sizeof(char)*30);
-            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50))
+            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50)==0)
             {
                 strcpy(config->pathListaHermanos,string);
                 printf("\nEl nombre de destino ha sid modificado con exito\n");
@@ -1392,7 +1437,7 @@ int controller_configuracion(eConfiguracion* config)
             break;
         case 3:
             string = (char*)malloc(sizeof(char)*30);
-            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50))
+            if(getString(string,"\nIngrese su nombre de destino: ","\nEl nombre no debe superar los 50 caracteres.\n",50)==0)
             {
                 strcpy(config->pathListaAsignaciones,string);
                 printf("\nEl nombre de destino ha sid modificado con exito\n");
@@ -1430,47 +1475,54 @@ int controller_configuracion(eConfiguracion* config)
             }
             break;
         case 6:
+            system("cls");
+            printf("\n  Programa de Asignacion de la Escuela de Ministerio Teocratico. Version 1.4.1 (Agosto del 2019). Desarrollado por Lucas Carbone. (Serval Technologies)\n");
+            printf("\n  Este programa fue hecho con el proposito de facilitar y perfeccionar la realizacion de asignaciones mensuales en la Escual de Ministerio.");
+            printf("\n  Con aproximadamente 4200 lineas de codigo escrito en lenguaje C se busca que el usuario pueda utilizar este programa con la mayor facilidad posible");
+            printf("\n  y que a su vez pueda familiarizarse con las nuevas tecnologias empezando con lo basico. Este proyecto fue hecho sin intenciones de lucro y para su");
+            printf("\n  libre uso siempre y cuando se tenga en cuenta al desarrollador a la hora de distribuirlo o basarse en el mismo.");
+            printf("\n  El programa jamas recopilara datos del usuario ajenos a los asuntos de programa.");
+            printf("\n  Las irregularidades de ortografia o gramatica no se dan por cuestiones de desconocimiento sino por falta de compatibilidad con los caracteres");
+            printf("\n  usados en la lengua hispana.");
+            printf("\n\n  Desde ya, les expreso mis mas profundos agradecimientos! :)\n");
+            system("pause");
+            break;
+        case 7:
             error=0;
             break;
+        default:
+            system("pause");
+            break;
         }
-
     }
-    while(opcion != 6);
+    while(opcion != 7);
     if(error)
     {
         printf("\nNo se ha podido aplicar la configuracion\n");
         system("pause");
     }
-
     return error;
 }
 
 int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList* listaAsignaciones)
 {
-    int len;
-    int* listaIndicesAsig;
     FILE* csvFile;
     eHermano* hnos = (eHermano*)malloc(sizeof(eHermano));
     eAsignacion* asigAux = (eAsignacion*)malloc(sizeof(eAsignacion));
     eAsignacion* asig =  asignacion_new();
-    char nombreArchivo[25] = " ";
+    LinkedList* listaElementos;
+    char nombreArchivo[30] = "Asignaciones ";
     char nombreAsignacion[25];
     int (*pFunc)();
     int mes;
     int cant;
     int error = 0;
-
     char anio[4];
-
-
-
 
     if(getIntIntentos(&mes,"\nIngrese el mes que desea registrar: ","\n Mes invalido!\n",1,12,1)==0)
     {
 
         (*asig).fecha.mes = mes;
-        printf("mes ingresado: %d",(*asig).fecha.mes);
-        system("pause");
         switch(mes)
         {
         case 1:
@@ -1517,38 +1569,54 @@ int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList*
 
             (*asig).fecha.anio = atoi(anio);
             strcat(nombreArchivo,anio);
-            strcat(nombreArchivo,".csv");
-            //printf("Nombre del archivo: %s Nombre mes %d\n",nombreArchivo,mes);
-            //system("pause");
-
+            strcat(nombreArchivo,".xlsx");
             csvFile = fopen(nombreArchivo,"w+");
 
             if(csvFile != NULL)
             {
                 fprintf(csvFile,"Hermanos\tAsignacion\tSala\tFecha\r");
                 pFunc = asignacion_searchFechaMes;
-                listaIndicesAsig = ll_search(listaAsignaciones,asig,pFunc,&len);
-                for(int i=0; i<len; i++)
+                listaElementos = ll_search(listaAsignaciones,asig,pFunc);
+
+                ///Ordenar segun asignacion y fecha
+                pFunc = asignacion_sortAsignacion;
+                if(ll_sort(listaElementos,pFunc,1))
                 {
-                    asigAux = ll_get(listaAsignaciones,listaIndicesAsig[i]);
+                    printf("\n Error en el ordenamiento ll_sort()/asignacion_sortAsignacion\n");
+                    system("pause");
+                    system("cls");
+                }
+                pFunc = asignacion_sortByData;
+                if(ll_sort(listaElementos,pFunc,1))
+                {
+                    printf("\n Error en el ordenamiento ll_sort()/asignacion_sortByData\n");
+                    system("pause");
+                    system("cls");
+                }
+
+                for(int i=0; i<ll_len(listaElementos); i++)
+                {
+                    asigAux = ll_get(listaElementos,i);
                     if(asigAux != NULL)
                     {
-                        ///1. Primera visita/2.Revisita/3. Estudio biblico/4.Lectura biblica/5. Discurso biblico
                         switch(asigAux->asignacion)
                         {
                         case 1:
-                            strcpy(nombreAsignacion,"Primera visita");
+                            strcpy(nombreAsignacion,"Lectura Biblica");
                             break;
                         case 2:
-                            strcpy(nombreAsignacion,"Revisita");
+                            strcpy(nombreAsignacion,"Primera Conversacion");
                             break;
                         case 3:
-                            strcpy(nombreAsignacion,"Estudio biblico");
+                            strcpy(nombreAsignacion,"Primera Revisita");
                             break;
                         case 4:
-                            strcpy(nombreAsignacion,"Lectura biblica");
+                            strcpy(nombreAsignacion,"Segunda Revisita");
                             break;
                         case 5:
+                            strcpy(nombreAsignacion,"Curso Biblico");
+                            break;
+                        case 6:
                             strcpy(nombreAsignacion,"Discurso");
                             break;
                         }
@@ -1589,9 +1657,6 @@ int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList*
                 error = 1;
                 system("pause");
             }
-
-
-
         }
         else
         {
@@ -1609,20 +1674,24 @@ int controller_saveHermanosAsignacionesCSV(LinkedList* listaHermanos,LinkedList*
 int controller_imprimirHermanos(LinkedList* listaHermanos)
 {
     int error = 1;
+    int tipoOrden = 1;
     int (*pFunc)();
     int opcion;
     do
     {
+        system("cls");
         printf("\n *** Ver lista de hermanos ****");
-        printf("\n 1. Ordenar nombres");
-        printf("\n 2. Ordenar ID");
-        printf("\n 3. Salir");
-        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n",1,3,1);
+        printf("\n 1. Ordenar por Apellido");
+        printf("\n 2. Ordenar por ID");
+        printf("\n 3. Ordenar segun ultima asignacion");
+        printf("\n 4. Cambiar orden Acendente/Decentente");
+        printf("\n 5. Volver al menu");
+        getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!\n Intentelo una vez mas: ",1,5,1);
         switch(opcion)
         {
         case 1:
             pFunc = hermano_ordenarString;
-            if(ll_sort(listaHermanos,pFunc,1)==0)
+            if(ll_sort(listaHermanos,pFunc,tipoOrden)==0)
             {
                 printf("\nLo hermanos han sido ordenados correctamente\n");
                 printHermanos(listaHermanos);
@@ -1632,7 +1701,7 @@ int controller_imprimirHermanos(LinkedList* listaHermanos)
             break;
         case 2:
             pFunc = hermano_ordenarId;
-            if(ll_sort(listaHermanos,pFunc,1)==0)
+            if(ll_sort(listaHermanos,pFunc,tipoOrden)==0)
             {
                 printf("\nLo hermanos han sido ordenados correctamente\n");
                 printHermanos(listaHermanos);
@@ -1642,73 +1711,148 @@ int controller_imprimirHermanos(LinkedList* listaHermanos)
             }
             break;
         case 3:
+            pFunc = hermano_sortByData;
+            if(ll_sort(listaHermanos,pFunc,tipoOrden)==0)
+            {
+                printf("\nLo hermanos han sido ordenados correctamente\n");
+                printHermanos(listaHermanos);
+                system("pause");
+                system("cls");
+            }
+
+            break;
+        case 4:
+            if(tipoOrden)
+            {
+                tipoOrden = 0;
+                printf("\n Se ha cambiado el orden a decendente\n");
+                system("pause");
+            }
+            else
+            {
+                tipoOrden = 1;
+                printf("\n Se ha cambiado el orden a acendente\n");
+                system("pause");
+            }
+            break;
+        case 5:
             system("cls");
             break;
         }
     }
-    while(opcion!=3);
+    while(opcion!=5);
 
 
     return error;
 
+}
+
+int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* listaHermanos)
+{
+    int error = 1;
+    int listaNull = 0;///Bandera que detiente o permite la iteracion while
+    int (*pFunc)();
+    eAsignacion* asig = (eAsignacion*)malloc(sizeof(eAsignacion));
+    eAsignacion* asigAux = (eAsignacion*)malloc(sizeof(eAsignacion));///contendra el valor del mes y anio
+    LinkedList* listaSegunMes;
+    //LinkedList* listaFechas; ///Contendra las posibles fechas que contiene un solo mes para que
+    if(listaAsignaciones != NULL && ll_len(listaAsignaciones) != 0 && listaHermanos !=NULL && ll_len(listaAsignaciones) != 0)
+    {
+        pFunc = asignacion_sortByData;
+        if(ll_sort(listaAsignaciones,pFunc,1)==0)
+        {
+
+
+            asig = ll_get(listaAsignaciones,0);
+            asigAux->fecha.mes = asig->fecha.mes; ///No se usa directamente asig porque se modificaria el elemento original.
+            asigAux->fecha.anio = asig->fecha.anio;
+            while(listaNull != 1)
+            {
+
+                pFunc = asignacion_searchFechaMes;
+                listaSegunMes = ll_search(listaAsignaciones,asigAux,pFunc);
+
+                pFunc = asignacion_sortAsignacion;
+                if(ll_sort(listaSegunMes,pFunc,1))
+                {
+                    printf("\n Error en el ordenamiento ll_sort()/asignacion_sortAsignacion\n");
+                    system("pause");
+                    system("cls");
+                    break;
+                }
+                pFunc = asignacion_sortByData;
+                if(ll_sort(listaSegunMes,pFunc,1))
+                {
+                    printf("\n Error en el ordenamiento ll_sort()/asignacion_sortByData\n");
+                    system("pause");
+                    system("cls");
+                    break;
+                }
+
+                if(listaSegunMes != NULL && ll_len(listaSegunMes) != 0)
+                {
+                    printf("\n%s\n",getMonthSpanish(asigAux->fecha.mes));
+                    printAsignaciones(listaSegunMes,listaHermanos);
+                    asigAux->fecha.mes++; ///Se incrementa el valor mes. No deberia incrementarse del elemento original
+                }
+                else
+                {
+                    listaNull = 1;
+                    asigAux->fecha.mes++;
+                }
+            }
+            system("pause");
+        }
+    }
+    system("cls");
+
+    return error;
 }
 
 int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config)
 {
-    char respuesta;
     int error=1;
     int opcion;
-    respuesta = getChar("\n Desea guardar los cambios? (s/n) \n");
-    switch(respuesta)
+
+    do
     {
-    case 's':
-        printf("\nComo lo quiere guardar?\n");
-        printf("\n1. Guardar solo el archivo predeterminado");
-        printf("\n2. Guardar lista un mes de asignaciones para Exel");
-        printf("\n3. Salir sin guardar");
-        if(getIntIntentos(&opcion,"\nIngrese opcion: ","\nOpcion invalida!",1,3,1)==0)
+        system("cls");
+        printf("\nAntes de salir. Desea...\n");
+        printf("\n 1. Guardar Cambios en el sistema");
+        printf("\n 2. Guardar lista de asignaciones en Exel");
+        printf("\n 3. Salir (Si sale sin guardar, no se aplicaran los ultimos cambios realizados)");
+        printf("\n 4. Volver al menu");
+        getIntIntentos(&opcion,"\n Ingrese opcion: ","\nOpcion invalida!",1,4,1);
+        switch(opcion)
         {
-            switch(opcion)
+        case 1:
+            controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config);
+            break;
+        case 2:
+            if(controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config)==0)
             {
-            case 1:
-                if(controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config)==0)
+                if(controller_saveHermanosAsignacionesCSV(listaHermanos,listaAsignaciones)==0)
                 {
-                    printf("\n Se han guardado los cambios!\n");
-                    error=0;
+                    printf("\n Se ha generado un archivo Exel con el mes y el anio especificado exitosamente.");
+                    printf("\nPuede salir del programa sin miedo a perder nada!\n");
                     system("pause");
                 }
-                break;
-            case 2:
-                controller_saveHermanosAsignaciones(listaHermanos,listaAsignaciones,config);
-                controller_saveHermanosAsignacionesCSV(listaHermanos,listaAsignaciones);
-
-                break;
-            case 3:
-                printf("\n Ok! Los cambios nos se guardaran.");
-                error=0;
-                Sleep(1000);
-                break;
             }
+            break;
+        case 3:
+            error = 3;
+            printf("\n Hasta luego!! :D\n");
+            Sleep(1000);
+            break;
+        case 4:
+            error = 2;
+            break;
         }
-        break;
-    case 'n':
-        printf("\n Ok! Los cambios nos se guardaran.");
-        error=0;
-        Sleep(1000);
-        break;
     }
-
-    printf("\n Hasta luego! :D\n");
-    Sleep(1000);
-
+    while(error != 2 && error != 3);
     return error;
 
-
-
-
 }
-
-
 
 void showLogo(void)
 {

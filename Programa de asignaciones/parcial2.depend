@@ -386,20 +386,21 @@
 
 1563543309 d:\escritorio\programa de asignaciones\parser.h
 
-1564264880 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.c
+1565020665 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.c
 	"asignaciones.h"
 	"LinkedList.h"
+	"hermanos.h"
 	"fecha.h"
 	<stdlib.h>
 	<stdio.h>
 
-1564264880 d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.h
+1565019521 d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.h
 	"fecha.h"
 	"LinkedList.h"
 
-1563811430 d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.h
+1564784702 d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.h
 
-1564276477 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.c
+1565115917 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -412,12 +413,12 @@
 	"parser.h"
 	"inputs.h"
 
-1564276533 d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.h
+1565018681 d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.h
 	"LinkedList.h"
 
-1563938906 d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.h
+1564410553 d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.h
 
-1564276189 d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.h
+1565115630 d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.h
 	"fecha.h"
 	"asignaciones.h"
 	"LinkedList.h"
@@ -426,23 +427,24 @@
 
 1563642416 d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.h
 
-1564110903 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.c
+1564785237 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.c
 	"fecha.h"
 	<string.h>
 	<stdlib.h>
 	<stdio.h>
 
-1564276189 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.c
+1565115609 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.c
 	"hermanos.h"
 	"asignaciones.h"
 	"fecha.h"
+	"LinkedList.h"
 	<stdlib.h>
 	<string.h>
 	<stdio.h>
 	<ctype.h>
 	"LinkedList.h"
 
-1563752631 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.c
+1564519134 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -451,7 +453,7 @@
 	<conio.h>
 	"inputs.h"
 
-1564068229 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.c
+1564412492 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -463,7 +465,7 @@
 	"LinkedList.h"
 	"hermanos.h"
 
-1564276533 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\main.c
+1565018927 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
@@ -473,6 +475,7 @@
 	"hermanos.h"
 	"asignaciones.h"
 	<windows.h>
+	<time.h>
 
 1563581026 d:\escritorio\programaasignacionesescuela\programa de asignaciones\dominio.h
 

@@ -65,5 +65,6 @@ eHermano* hermano_searchGetById(int* id,LinkedList* this);
 
 int hermano_ordenarId(eHermano* this1,eHermano* this2);
 int hermano_ordenarString(eHermano* this1,eHermano* this2);
+int hermano_sortByData(eHermano* this, eHermano* this2);
 
 #endif // dominio_H_INCLUDED

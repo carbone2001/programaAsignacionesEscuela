@@ -23,6 +23,7 @@ int controller_searchAsignacion(LinkedList* listaAsignaciones, LinkedList* lista
 int controller_editHermanos(LinkedList* this);
 int controller_editAsignaciones(LinkedList* this, LinkedList* this2);
 int controller_imprimirHermanos(LinkedList* listaHermanos);
+int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* listaHermanos);
 int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config);
 
 

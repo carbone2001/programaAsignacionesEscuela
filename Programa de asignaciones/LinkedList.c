@@ -564,10 +564,11 @@ LinkedList* filter(LinkedList* this,int (*pFunc)(void*))
     }
     return vehiculo;
 }
-
+/*
 int* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*),int* len)
 {
     int* found = (int*) malloc (sizeof(int));
+    //LinkedList* aux = ll_newLinkedList();
     int* foundAux;
     void* aux;
     int j = 0;
@@ -593,4 +594,28 @@ int* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*),int* le
     }
     *len =j;
     return found;
+}*/
+
+
+LinkedList* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*))
+{
+    LinkedList* aux = ll_newLinkedList();
+    void* auxElement;
+
+    for(int i=0;i<ll_len(this);i++)
+    {
+        auxElement = ll_get(this,i);
+        if(pFunc(element,auxElement))
+        {
+            if(ll_add(aux,auxElement))
+            {
+                printf("\nError al cargar un elemento a la lista(ll_search)\n");
+                system("pause");
+                ll_deleteLinkedList(aux);
+                break;
+            }
+
+        }
+    }
+    return aux;
 }

@@ -1,6 +1,7 @@
 #include "hermanos.h"
 #include "asignaciones.h"
 #include "fecha.h"
+#include "LinkedList.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -474,28 +475,45 @@ int hermano_searchAsignacionSemana(eHermano* elemento1,eHermano* elemento2)
 eHermano* hermano_searchGetById(int* id,LinkedList* this)
 {
     eHermano* hno = (eHermano*) malloc (sizeof(eHermano));
-    int len;
+    LinkedList* listaHermanos;
     int (*pFunc)();
-    int* indices;
     if(setId(hno,*id)==0)
     {
         pFunc = hermano_searchId;
-        indices = ll_search(this,hno,pFunc,&len);
-        if(len == 0)
+        listaHermanos = ll_search(this,hno,pFunc);
+        if(ll_len(listaHermanos) == 0)
         {
             hno = NULL;
         }
         else
         {
-            hno = ll_get(this,*indices);
+            hno = ll_get(listaHermanos,0);
         }
     }
     return hno;
-
-
 }
+/*
+eHermano* hermano_searchGetById(int* id,LinkedList* this)
+{
+    eHermano* hno = (eHermano*) malloc (sizeof(eHermano));
+    LinkedList* elements;
+    int (*pFunc)();
 
-
+    if(setId(hno,*id)==0)
+    {
+        pFunc = hermano_searchId;
+        elements = ll_search(this,hno,pFunc);
+        if(ll_len(elements) == 0)
+        {
+            hno = NULL;
+        }
+        else
+        {
+            hno = ll_get(elements,0);
+        }
+    }
+    return hno;
+}*/
 
 
 
@@ -526,11 +544,13 @@ int hermano_ordenarString(eHermano* this1,eHermano* this2)
     int retorno;
     retorno = strcmp(this1->apellido,this2->apellido);
     retorno = retorno;
+    return retorno;
 }
 
 int hermano_ordenarId(eHermano* this1,eHermano* this2)
 {
-    int retorno;
+    int retorno=-1;
+
     if(this1->id == this2->id)
     {
         retorno = 0;
@@ -539,9 +559,36 @@ int hermano_ordenarId(eHermano* this1,eHermano* this2)
     {
         retorno = 1;
     }
-    else
+    return retorno;
+
+}
+
+
+int hermano_sortByData(eHermano* this, eHermano* this2)
+{
+    int retorno = -1;
+    if(this->ultimaAsignacion.fecha.anio == this2->ultimaAsignacion.fecha.anio)
     {
-        retorno = -1;
+        if(this->ultimaAsignacion.fecha.mes == this2->ultimaAsignacion.fecha.mes)
+        {
+            if(this->ultimaAsignacion.fecha.dia == this2->ultimaAsignacion.fecha.dia)
+            {
+                retorno = 0;
+            }
+            else if(this->ultimaAsignacion.fecha.dia > this2->ultimaAsignacion.fecha.dia)
+            {
+                retorno = 1;
+            }
+        }
+        else if(this->ultimaAsignacion.fecha.mes > this2->ultimaAsignacion.fecha.mes)
+        {
+            retorno = 1;
+        }
     }
-    retorno = retorno;
+    else if(this->ultimaAsignacion.fecha.anio > this2->ultimaAsignacion.fecha.anio)
+    {
+        retorno = 1;
+    }
+
+    return retorno;
 }

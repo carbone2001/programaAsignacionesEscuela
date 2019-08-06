@@ -7,13 +7,18 @@
 #include "hermanos.h"
 #include "asignaciones.h"
 #include <windows.h>
+#include <time.h>
 
-void showLogo(void);
 
 int main()
 {
 
     char *option;
+    int salir=0;
+    time_t t=time(NULL);
+    struct tm *tm =localtime(&t);
+    //int (*pFunc)();
+
     option = (char*) malloc (sizeof(char));
     LinkedList* listaHermanos = ll_newLinkedList();
     LinkedList* listaAsignaciones = ll_newLinkedList();
@@ -23,9 +28,6 @@ int main()
         printf("No se ha podido crear la lista de hermanos. Reinicie el programa.\n\n");
         system("pause");
     }
-    //harcodearHermanos(listaHermanos);
-    //harcodearAsignaciones(listaAsignaciones);
-
 
     if((config = cargarConfiguracion("config.bin",1))!=NULL)
     {
@@ -37,13 +39,17 @@ int main()
             do
             {
 
+
                 fflush(stdin);
-                printf("\n ***** MENU *****\n");
+                printf("\n ******** FECHA DE HOY *******");
+                printf("\n ********* %02d/%02d/%04d ********",tm->tm_mday,tm->tm_mon+1,1900+tm->tm_year);
+                printf("\n *****************************\n");
+                printf("\n MENU:");
                 printf("\n 1.  Crear nueva asignacion");
                 printf("\n 2.  Agrega hermano");
                 printf("\n 3.  Buscar asignacion");
                 printf("\n 4.  Buscar hermano");
-                printf("\n 5.  Ver lista de hermanos"); ///tiene que poder ordenarse segun se desee
+                printf("\n 5.  Ver lista de hermanos");
                 printf("\n 6.  Ver lista de asignaciones");
                 printf("\n 7.  Modificar hermano");
                 printf("\n 8.  Modificar asignacion");
@@ -71,12 +77,9 @@ int main()
                     break;
                 case 5:
                     controller_imprimirHermanos(listaHermanos);
-
                     break;
                 case 6:
-                    printAsignaciones(listaAsignaciones);
-                    system("pause");
-                    system("cls");
+                    controller_imprimirAsignaciones(listaAsignaciones,listaHermanos);
                     break;
                 case 7:
                     controller_editHermanos(listaHermanos);
@@ -88,21 +91,16 @@ int main()
                     controller_configuracion(config);
                     break;
                 case 10:
-                    controller_saveAndExit(listaHermanos,listaAsignaciones,config);
+                    salir = controller_saveAndExit(listaHermanos,listaAsignaciones,config);
                     break;
                 default:
-                    printf("\nOpcion invalida");
+
                     system("cls");
                     break;
                 }
                 system("cls");
             }
-            while((atoi(option)) != 10);
-            free(listaHermanos);
-            free(listaAsignaciones);
-            free(option);
-
-
+            while(salir != 3);
         }
         else
         {
@@ -115,6 +113,10 @@ int main()
         printf("\nERROR FATAL! No se ha podido cargar la configuracion de arranque.\n");
         system("pause");
     }
+    free(listaHermanos);
+    free(listaAsignaciones);
+    free(option);
+    free(config);
     return 0;
 }
 
