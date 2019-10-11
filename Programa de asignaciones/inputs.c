@@ -11,10 +11,10 @@ int getIntIntentos(int* input,char* msj,char* eMsj,int minimo,int maximo,int rei
     int error;
     char numStr[15];
     int num;
-
     error=0;
     num=*input;
     printf("%s",msj);
+    fflush(stdin);
     scanf("%s",numStr);
     num = atoi(numStr);
     if(num<minimo||num>maximo)

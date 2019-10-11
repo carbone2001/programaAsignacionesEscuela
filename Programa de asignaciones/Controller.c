@@ -10,34 +10,6 @@
 #include "parser.h"
 #include "inputs.h"
 
-/** \brief Carga los datos de los empleados desde el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayList LinkedList*
- * \return int
- */
-int controller_loadFromText(char* path, LinkedList* pArrayList)
-{
-    int error = 1;
-    FILE * file;
-
-    file = fopen(path,"r");
-    if(file!=NULL && pArrayList != NULL)
-    {
-        error = parser_FromText(file,pArrayList);
-    }
-    system("cls");
-    if(error)
-    {
-        printf("\nError al cargar el texto de archivo \n");
-    }
-    else
-    {
-        printf("\nLa carga se ha realizado con exito \n");
-    }
-    fclose(file);
-    return error;
-}
 
 /** \brief Carga los datos de los empleados desde el archivo data.csv (modo binario).
  *
@@ -126,19 +98,24 @@ int controller_addHermano(LinkedList* pArrayList)
     }
     else
     {
-        error=0;
+        error=2;
     }
 
 
 
-    if(error)
+    if(error==1)
     {
         printf("\nHubo un error al agregar el hermano\n");
         system("pause");
     }
-    else
+    else if(error == 0)
     {
         printf("\nEl hermano ha sido agregado exitosamente\n");
+        system("pause");
+    }
+    else
+    {
+        printf("\nSe ha cancelado la creacion del nuevo hermano\n");
         system("pause");
     }
     system("cls");
@@ -146,13 +123,6 @@ int controller_addHermano(LinkedList* pArrayList)
     return error;
 }
 
-/** \brief Modificar datos de empleado
- *
- * \param path char*
- * \param pArrayList LinkedList*
- * \return int
- *
- */
 int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHermanos)
 {
     int error = 1;
@@ -183,7 +153,7 @@ int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHerm
                     if(*sala == 'A' || *sala == 'B' || *sala == 'a' || *sala == 'b')
                     {
                         asignacion = (int*) malloc (sizeof(int));
-                        if(getInt(asignacion,"\nIngrese numero de asignacion \n 1. Lectura \n 2. Primera Conversacion\n 3. Primera Revisita \n 4. Segunda Revisita \n 5. Curso Biblico \n 6. Discurso biblico\n\n Ingrese opcion: ","\nOpcion Invalida!",0,6) == 0)
+                        if(getIntIntentos(asignacion,"\nIngrese numero de asignacion \n 1. Lectura \n 2. Primera Conversacion\n 3. Primera Revisita \n 4. Segunda Revisita \n 5. Curso Biblico \n 6. Discurso biblico\n\n Ingrese opcion: ","\nOpcion Invalida!",0,6,1) == 0)
                         {
                             printf("\nIngrese fecha de asignacion:");
                             fecha = (eFecha*) malloc(sizeof(eFecha));
@@ -239,160 +209,7 @@ int controller_addAsignacion(LinkedList* listaAsignaciones,LinkedList* listaHerm
 
 }
 
-/** \brief Baja de empleado
- *
- * \param path char*
- * \param pArrayList LinkedList*
- * \return int
- *
- */
 
-int controller_removeEmployee(LinkedList* pArrayList)
-{
-    int error = -1;
-    eHermano* hno;
-    int id;
-    char option;
-    int found = 0;
-    printf("\nIngrese ID del empleado a eliminar: ");
-    scanf("%d",&id);
-
-    for(int i = 0; i<ll_len(pArrayList); i++)
-    {
-        hno = ll_get(pArrayList,i);
-        if(hno->id == id)
-        {
-            found = i;
-            break;
-        }
-    }
-    if(found)
-    {
-        printf("\nEl ID ingresado corresponde a: ");
-        printf("%s",hno->nombre);
-        printf("\nDesea proseguir con la eliminacion? (s/n): ");
-        fflush(stdin);
-        scanf("%c",&option);
-        if(option == 's')
-        {
-            if(ll_remove(pArrayList,found))
-            {
-                printf("\nNo se ha podido eliminar al empleado");
-            }
-            else
-            {
-                printf("\nLa eliminacion ha sido exitosa");
-            }
-        }
-        else
-        {
-            printf("\nSe ha cancelado la eliminacion");
-        }
-    }
-    else
-    {
-        printf("\nNo se ha encontrado al empleado de ID: %d",id);
-    }
-
-    return error;
-}
-
-
-
-/** \brief Ordenar empleados
- *
- * \param path char*
- * \param pArrayList LinkedList*
- * \return int
- *
- */
-
-int controller_sortEmployee(LinkedList* pArrayList)
-{
-    int error = 1;
-    eHermano* empI;
-    eHermano* empJ;
-    eHermano* aux;
-    aux = (eHermano*) malloc (sizeof(eHermano));
-    if(aux != NULL)
-    {
-        for(int i = 0; i<ll_len(pArrayList)-1; i++)
-        {
-            empI = ll_get(pArrayList,i);
-            for(int j=i+1; j<ll_len(pArrayList); j++)
-            {
-                empJ = ll_get(pArrayList,j);
-                if(strcmp(empI->nombre,empJ->nombre)>0)
-                {
-                    aux = empI;
-                    empI = empJ;
-                    empJ = aux;
-                    error = ll_set(pArrayList,i,empI);
-                    error = ll_set(pArrayList,j,empJ);
-                }
-            }
-            if(i<ll_len(pArrayList)-1)
-            {
-                error = 0;
-            }
-        }
-    }
-    if(error)
-    {
-        system("cls");
-        printf("\nATENCION! Hubo un error en el ordenamiento.");
-    }
-    else
-    {
-        system("cls");
-        printf("\nEl ordenamiento se ha realizado con exito!");
-    }
-    free(aux);
-    return 1;
-}
-
-/** \brief Guarda los datos de los empleados en el archivo data.csv (modo texto).
- *
- * \param path char*
- * \param pArrayList LinkedList*
- * \return int
- *
- */
-
-int controller_saveAsText(char* path, LinkedList* pArrayList)
-{
-
-
-    FILE* pFile;
-    eHermano* hno; ///EL PUNTERO AL TIPO DE ELEMENTO ESTRUCTURA
-    int error = 0;
-
-    pFile = fopen (path,"w");
-    if(pFile != NULL)
-    {
-        ///SE IMPRIMEN LOS NOMBRES DE CADA CAMPO
-        fprintf(pFile,"\nid,dominio,anio\n");
-        for(int i=0; i<ll_len(pArrayList); i++)
-        {
-            hno = ll_get(pArrayList,i);
-            if(hno==NULL)
-            {
-                error = 1;
-                break;
-            }
-            ///SE IMPRIMEN LOS DATOS
-            //fprintf(pFile,"%d,%s,%d\n",hno->id,hno->dominio,hno->anio);
-        }
-        system("pause");
-    }
-    else
-    {
-        error = 1;
-    }
-    fclose(pFile);
-    free(hno);
-    return error;
-}
 
 /** \brief Guarda los datos de los empleados en el archivo data.csv (modo binario).
  *
@@ -1476,8 +1293,8 @@ int controller_configuracion(eConfiguracion* config)
             break;
         case 6:
             system("cls");
-            printf("\n  Programa de Asignacion de la Escuela de Ministerio Teocratico. Version 1.4.1 (Agosto del 2019). Desarrollado por Lucas Carbone. (Serval Technologies)\n");
-            printf("\n  Este programa fue hecho con el proposito de facilitar y perfeccionar la realizacion de asignaciones mensuales en la Escual de Ministerio.");
+            printf("\n  Programa de Asignacion de la Escuela de Ministerio Teocratico. Version 1.4.2 (Agosto del 2019). Desarrollado por Lucas Carbone. (Serval Technologies)\n");
+            printf("\n  Este programa fue hecho con el proposito de facilitar y perfeccionar la realizacion de asignaciones mensuales en la Escuela de Ministerio.");
             printf("\n  Con aproximadamente 4200 lineas de codigo escrito en lenguaje C se busca que el usuario pueda utilizar este programa con la mayor facilidad posible");
             printf("\n  y que a su vez pueda familiarizarse con las nuevas tecnologias empezando con lo basico. Este proyecto fue hecho sin intenciones de lucro y para su");
             printf("\n  libre uso siempre y cuando se tenga en cuenta al desarrollador a la hora de distribuirlo o basarse en el mismo.");
@@ -1758,7 +1575,7 @@ int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* li
     //LinkedList* listaFechas; ///Contendra las posibles fechas que contiene un solo mes para que
     if(listaAsignaciones != NULL && ll_len(listaAsignaciones) != 0 && listaHermanos !=NULL && ll_len(listaAsignaciones) != 0)
     {
-        pFunc = asignacion_sortByData;
+        pFunc = asignacion_sortAsignacion;
         if(ll_sort(listaAsignaciones,pFunc,1)==0)
         {
 
@@ -1772,14 +1589,6 @@ int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* li
                 pFunc = asignacion_searchFechaMes;
                 listaSegunMes = ll_search(listaAsignaciones,asigAux,pFunc);
 
-                pFunc = asignacion_sortAsignacion;
-                if(ll_sort(listaSegunMes,pFunc,1))
-                {
-                    printf("\n Error en el ordenamiento ll_sort()/asignacion_sortAsignacion\n");
-                    system("pause");
-                    system("cls");
-                    break;
-                }
                 pFunc = asignacion_sortByData;
                 if(ll_sort(listaSegunMes,pFunc,1))
                 {
@@ -1803,6 +1612,16 @@ int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* li
             }
             system("pause");
         }
+        else
+        {
+            printf("\n Error en el ordenamiento ll_sort()/asignacion_sortAsignacion\n");
+            system("pause");
+        }
+    }
+    else
+    {
+        printf("\nNo se han encontrado asignaciones\n");
+        system("pause");
     }
     system("cls");
 

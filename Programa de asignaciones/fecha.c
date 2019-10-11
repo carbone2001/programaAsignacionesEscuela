@@ -2,25 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
-eFecha strToData(char* str)
-{
-    eFecha fecha;
-    /*char dia[3];
-    char mes[3];
-    char anio[5];
-    if(str != NULL)
-    {
-        dia[0] = str[0];
-        dia[1] = str[1];
-
-        mes[0] = str[3];
-        mes[1] = str[4];
-
-        anio[0] = str[6];
-        anio[1] = str[7];
-    }*/
-    return fecha;
-}
 
 eFecha* newFecha(int dia,int mes,int anio)
 {
@@ -63,17 +44,15 @@ eFecha* pedirFecha(void)
 
 
     printf("\n\tDia: ");
+    fflush(stdin);
     scanf("%d",&dia);
     printf("\n\tMes: ");
+    fflush(stdin);
     scanf("%d",&mes);
     printf("\n\tAnio: ");
+    fflush(stdin);
     scanf("%d",&anio);
-
-
     fechaAux = newFecha(dia,mes,anio);
-
-
-
     return fechaAux;
 }
 

@@ -27,14 +27,7 @@ int controller_imprimirAsignaciones(LinkedList* listaAsignaciones,LinkedList* li
 int controller_saveAndExit(LinkedList* listaHermanos,LinkedList* listaAsignaciones,eConfiguracion* config);
 
 
-
-
-int controller_editEmployee(LinkedList* pArrayList);
-int controller_removeEmployee(LinkedList* pArrayList);
-int controller_ListEmployee(LinkedList* pArrayList);
-int controller_sortEmployee(LinkedList* pArrayList);
 int controller_saveAsText(char* path , LinkedList* pArrayList);
-
 int controller_saveAsBinary(char* path , LinkedList* pArrayList);
 
 

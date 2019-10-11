@@ -394,13 +394,13 @@
 	<stdlib.h>
 	<stdio.h>
 
-1565019521 d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.h
+1565277000 d:\escritorio\programaasignacionesescuela\programa de asignaciones\asignaciones.h
 	"fecha.h"
 	"LinkedList.h"
 
-1564784702 d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.h
+1565277067 d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.h
 
-1565115917 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.c
+1565277266 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.c
 	<stdio.h>
 	<stdlib.h>
 	<windows.h>
@@ -413,10 +413,10 @@
 	"parser.h"
 	"inputs.h"
 
-1565018681 d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.h
+1565277000 d:\escritorio\programaasignacionesescuela\programa de asignaciones\controller.h
 	"LinkedList.h"
 
-1564410553 d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.h
+1565277067 d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.h
 
 1565115630 d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.h
 	"fecha.h"
@@ -427,13 +427,13 @@
 
 1563642416 d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.h
 
-1564785237 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.c
+1565277067 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\fecha.c
 	"fecha.h"
 	<string.h>
 	<stdlib.h>
 	<stdio.h>
 
-1565115609 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.c
+1565276586 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\hermanos.c
 	"hermanos.h"
 	"asignaciones.h"
 	"fecha.h"
@@ -444,7 +444,7 @@
 	<ctype.h>
 	"LinkedList.h"
 
-1564519134 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.c
+1565275964 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\inputs.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -453,13 +453,13 @@
 	<conio.h>
 	"inputs.h"
 
-1564412492 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.c
+1565277266 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"LinkedList.h"
 
-1563930427 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\parser.c
+1565277000 source:d:\escritorio\programaasignacionesescuela\programa de asignaciones\parser.c
 	<stdio.h>
 	<stdlib.h>
 	"LinkedList.h"

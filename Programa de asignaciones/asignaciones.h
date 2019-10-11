@@ -7,7 +7,8 @@ typedef struct
 {
     int idHermano;
     char sala;
-    int asignacion; ///1. Lectura / 2. Prim. Conv /3. Prim. Rev. /4. Seg. Rev /5. Curso biblico /6. Discurso
+    int asignacion; ///1. Lectura ** / 2. Prim. Conv(1) / 3. Prim. Conv(2) / 4. Prim. Conv(3)  **   /5. Prim. Rev(1) /6. Prim. Rev(2) /7. Prim. Rev(3) ** /8. Seg. Rev(1) /9. Seg. Rev(2) /10. Seg. Rev(3) /11. Ter. Rev(1) /12. Ter. Rev(2) /13. Ter. Rev(3)/14. Curso biblico /15. Discurso /16. Ayudante
+    //int ayudante;
     eFecha fecha;
 }eAsignacion;
 
@@ -26,5 +27,5 @@ int asignacion_sortAsignacion(eAsignacion* element1, eAsignacion* element2);
 void harcodearAsignaciones(LinkedList* this);
 void printAsignacion(eAsignacion* elemento,LinkedList* listaHermanos);
 void printAsignaciones(LinkedList* this,LinkedList* listaHermanos);
-//void printAsignacionesConHermanos(LinkedList* this,LinkedList* listaHermanos);
+
 #endif // ASIGNACIONES_H_INCLUDED

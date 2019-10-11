@@ -564,37 +564,6 @@ LinkedList* filter(LinkedList* this,int (*pFunc)(void*))
     }
     return vehiculo;
 }
-/*
-int* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*),int* len)
-{
-    int* found = (int*) malloc (sizeof(int));
-    //LinkedList* aux = ll_newLinkedList();
-    int* foundAux;
-    void* aux;
-    int j = 0;
-
-    for(int i=0;i<ll_len(this);i++)
-    {
-        aux = ll_get(this,i);
-        if(pFunc(element,aux))
-        {
-
-            j++; ///incremento el indice j para la proxima
-            foundAux = (int*)realloc(found,sizeof(int)*j); ///incremento el espacio del array en 1 (intento hacerlo en un auxiliar)
-            if(foundAux != NULL)
-            {
-                found = foundAux; ///si todo salio bien, copio el auxiliar a found
-                found[j-1]=i;///copio el numero del indice obtenido al array, en el indice j-1
-            }
-            else
-            {
-                j--; ///si algo malio sal pues cancelare el incremento de j
-            }
-        }
-    }
-    *len =j;
-    return found;
-}*/
 
 
 LinkedList* ll_search(LinkedList* this,void* element,int (*pFunc) (void*,void*))

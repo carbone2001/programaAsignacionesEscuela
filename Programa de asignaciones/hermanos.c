@@ -112,7 +112,7 @@ void printHermano(eHermano* p)
         printf("%20s","  Ninguno");
         break;
     }
-    printf("             %2d/%2d/%4d",p->ultimaAsignacion.fecha.dia,p->ultimaAsignacion.fecha.mes,p->ultimaAsignacion.fecha.anio);
+    printf("             %02d/%02d/%4d",p->ultimaAsignacion.fecha.dia,p->ultimaAsignacion.fecha.mes,p->ultimaAsignacion.fecha.anio);
     if(p->estado)
     {
         printf("%20s","Habilitado");

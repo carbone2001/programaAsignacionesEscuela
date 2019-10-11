@@ -9,7 +9,6 @@ typedef struct
 
 }eFecha;
 
-eFecha strToData(char* str);
 
 eFecha* newFecha(int dia,int mes,int anio);
 eFecha* pedirFecha(void);
